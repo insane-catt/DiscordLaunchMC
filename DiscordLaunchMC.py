@@ -57,7 +57,10 @@ async def setseed(interaction: discord.Interaction, seed: str = None):
                     line = replace_text + '\n'
                 file.write(line)
 
-        await interaction.response.send_message("シード値を変更しました")
+        if seed == None:
+            await interaction.response.send_message("シード値をデフォルト（ランダム）に変更しました")
+        else:
+            await interaction.response.send_message(f"シード値を【{seed}】に変更しました")
 
 
 @tree.command(name="setpvp", description="PVPの設定を変更する")
@@ -84,7 +87,11 @@ async def setpvp(interaction: discord.Interaction, on_or_off: str):
                     line = replace_text + '\n'
                 file.write(line)
 
-        await interaction.response.send_message("PVPの設定を変更しました")
+        if on_or_off == "true":
+            await interaction.response.send_message("PVPの設定を **オン** に変更しました")
+        else:
+            await interaction.response.send_message("PVPの設定を **オフ** に変更しました")
+
 
 
 @tree.command(name="setdifficulty", description="ゲーム難易度を変更する")
@@ -112,14 +119,24 @@ async def setdifficulty(interaction: discord.Interaction, difficulty: str):
                 if search_text in line:
                     line = replace_text + '\n'
                 file.write(line)
+        if difficulty == "peaceful":
+            await interaction.response.send_message("ゲーム難易度を **ピースフル** に変更しました")
+        elif difficulty == "easy":
+            await interaction.response.send_message("ゲーム難易度を **イージー** に変更しました")
+        elif difficulty == "normal":
+            await interaction.response.send_message("ゲーム難易度を **ノーマル** に変更しました")
+        else:
+            await interaction.response.send_message("ゲーム難易度を **ハード** に変更しました")
+        
 
-        await interaction.response.send_message("ゲーム難易度を変更しました")
 
-
-@tree.command(name="changetheworld", description="世界を変える")
+@tree.command(
+        name="changeworld", 
+        description="遊ぶワールドを変更する。存在しないワールド名を入力することで、新しいワールドが生成される。"
+        )
 @app_commands.default_permissions(administrator=True)
-@app_commands.describe(world='世界')
-async def changetheworld(interaction: discord.Interaction, world: str):
+@app_commands.describe(world='ワールド名')
+async def changeworld(interaction: discord.Interaction, world: str):
     if is_server_running():
         await interaction.response.send_message('サーバーが起動中のため、そのコマンドは実行できません')
     else:
@@ -135,7 +152,7 @@ async def changetheworld(interaction: discord.Interaction, world: str):
                     line = replace_text + '\n'
                 file.write(line)
 
-        await interaction.response.send_message("世界を変えました")
+        await interaction.response.send_message(f"ワールドを **{world}** に変更しました")
 
 
 def is_server_running():
