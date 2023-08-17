@@ -35,7 +35,8 @@ sudo apt install screen -y
 ## 使い方
 **PaperでのMinecraftサーバーは既に構築された状態を想定しています。** まずそれだけやって、それから以下のようにしてください。
 1. [このプロジェクトのGitHub](https://github.com/insane-catt/DiscordLaunchMC)にアクセスし、画面右のRelasesよりパッケージをダウンロードする。
-1. パッケージ内のPythonファイル（拡張子が.py）をサーバーの実行ファイルのあるディレクトリに移動し、あとで編集するのでエディタで開いておく。
+1. パッケージ内のPythonファイル（拡張子が.py）をサーバーの実行ファイルのあるディレクトリに移動し、エディタで開く。
+1. 上層部の設定欄を任意で書き換えるか、ディレクトリ構成を「/home/pi/minecraft/java/paper」にし、そのpaperディレクトリをサーバーの実行ファイルのあるフォルダにする。
 1. https://discord.com/developers/applications にアクセスし、ログインし、New Applicationボタンをクリック。名前を付け、チェックを入れ、Createする。
 1. 画面左にBotと出るので、クリックし、Reset Tokenボタンを押し、Yes, do it!をクリック、その後Copyボタンを押して**トークンをダウンロードしてきたPythonファイル内の「TOKEN」と置き換える。**
 1. Privileged Gateway Intentsのところの切り替えスイッチを全部オンにし、下に出てきたSave changesボタンをクリック。
