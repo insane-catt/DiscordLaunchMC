@@ -1,3 +1,7 @@
+# EN: This file is DiscordLaunchMC.py (Japanese version). If you want to use English, please use DiscordLaunchMC-en.py.
+# JP: このファイルはDiscordLaunchMC.py（日本語版）です。英語を使用したい場合は、DiscordLaunchMC-en.pyを使用してください。
+
+
 # 以下は簡単な設定欄です
 
 TOKEN = "TOKEN"  # Discord botのトークンを入力してください
