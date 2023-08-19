@@ -37,7 +37,7 @@ async def start(interaction: discord.Interaction):
         await interaction.response.send_message('Server is already up and running')
     else:
         start_server()
-        await interaction.response.send_message('Starting the server')
+        await interaction.response.send_message('Starting the server. Please wait a moment')
 
 
 @tree.command(name="setseed", description="Set the seed value of the world")

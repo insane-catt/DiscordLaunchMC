@@ -37,7 +37,7 @@ async def start(interaction: discord.Interaction):
         await interaction.response.send_message('サーバーは既に起動しています')
     else:
         start_server()
-        await interaction.response.send_message('サーバーを起動します')
+        await interaction.response.send_message('サーバーを起動します。しばらくおまちください')
 
 
 @tree.command(name="setseed", description="ワールドのシード値を設定する")
