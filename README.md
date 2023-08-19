@@ -62,3 +62,7 @@ Twitter（X笑）
 https://twitter.com/insane_catt
 
 DMまでどうぞ
+
+## バージョン履歴
+- v1.0.1：サーバーを起動する際のメッセージ若干変更
+- v1.0.0
