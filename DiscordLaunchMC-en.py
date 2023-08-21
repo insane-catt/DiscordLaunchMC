@@ -19,6 +19,7 @@ MIN_RAM = "2"  # Set the minimum memory to be used. Default is 2
 import discord
 from discord import app_commands
 import subprocess
+import sys
 
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
@@ -157,6 +158,17 @@ async def changeworld(interaction: discord.Interaction, world: str):
                 file.write(line)
 
         await interaction.response.send_message(f"Changed world to **{world}** .")
+
+
+@tree.command(name="logout", description="Log this bot out")
+@app_commands.default_permissions(administrator=True)
+async def exitbot(interaction: discord.Interaction):
+    if is_server_running():
+        await interaction.response.send_message('The server is running. To execute that command, please exit the server.')
+    else:
+        await interaction.response.send_message('Execute logout')
+        print("The logout command has been executed.")
+        sys.exit()
 
 
 def is_server_running():

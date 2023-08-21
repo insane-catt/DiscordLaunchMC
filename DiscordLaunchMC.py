@@ -19,6 +19,7 @@ MIN_RAM = "2"  #使用する最小メモリを設定してください。デフ�
 import discord
 from discord import app_commands
 import subprocess
+import sys
 
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
@@ -157,6 +158,17 @@ async def changeworld(interaction: discord.Interaction, world: str):
                 file.write(line)
 
         await interaction.response.send_message(f"ワールドを **{world}** に変更しました")
+
+
+@tree.command(name="logout", description="このbotをログアウトさせる")
+@app_commands.default_permissions(administrator=True)
+async def exitbot(interaction: discord.Interaction):
+    if is_server_running():
+        await interaction.response.send_message('サーバーが起動しています。そのコマンドを実行するには、サーバーを終了してください。')
+    else:
+        await interaction.response.send_message('ログアウトを実行します')
+        print("The logout command has been executed.")
+        sys.exit()
 
 
 def is_server_running():
