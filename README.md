@@ -65,6 +65,8 @@ https://twitter.com/insane_catt
 DMまでどうぞ
 
 ## バージョン履歴
+- v1.0.4：READMEの更新
+- v1.0.3：READMEの更新
 - v1.0.2：/logoutコマンドの実装
 - v1.0.1：サーバーを起動する際のメッセージ若干変更
 - v1.0.0
