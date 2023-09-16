@@ -1,5 +1,6 @@
-# EN: This file is DiscordLaunchMC.py (Japanese version). If you want to use English, please use DiscordLaunchMC-en.py.
-# JP: このファイルはDiscordLaunchMC.py（日本語版）です。英語を使用したい場合は、DiscordLaunchMC-en.pyを使用してください。
+# EN: This file is DiscordLaunchMC (Japanese version). If you want to use English, please use DiscordLaunchMC-en.
+# JP: このファイルはDiscordLaunchMC（日本語版）です。英語を使用したい場合は、DiscordLaunchMC-enを使用してください。
+# DiscordLaunchMC-en: https://github.com/insane-catt/DiscordLaunchMC-en
 
 
 # 以下は簡単な設定欄です

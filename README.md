@@ -1,7 +1,6 @@
 # DiscordLaunchMC
- Starting a Minecraft server with a Discord bot.
- If you need a translation, please use the following link:
- https://www.deepl.com
+MinecraftサーバーをDiscordから起動するツールです。<br>
+If you need an English version: https://github.com/insane-catt/DiscordLaunchMC-en
 ## 概要
 - 任意の設定で新しくワールドを作ったり、サーバーの設定を変更する際、いちいちSSHで接続してserver.propertiesを編集しなくちゃいけないのがだるくなりそうな気がしたので、例のDiscord botに、Discordから簡単なコマンドを打てばserver.propertiesを編集してくれる機能を持たせることにした。
 - また、前回のスクリプト（[Qiitaで書いた記事](https://qiita.com/insane_catt/items/f8cc4053a65334a8c9c4)）のままだと、管理者権限を持ってない人でも/startコマンドを打てたりしてしまうので、管理者権限を持つ人だけが実行できるように改良した。
@@ -49,7 +48,7 @@ python3 DiscordLaunchMC.py
 ### いつでも使えるコマンド
 - /hello：Hello, 【コマンドを実行したユーザー】!と返してくれる。誰でも使えるコマンド。
 ### サーバー停止中にDiscordサーバー管理者のみ使えるコマンド
-- **/start**：サーバーを起動するコマンド。Discordサーバー管理者のみ使えるコマンド。
+- **/start**：サーバーを起動するコマンド。
 - /changeworld：遊ぶワールドを変更する。引数として、ワールド名を入力する必要がある。存在しないワールド名を入力することで、新しいワールドが生成される。
 - /setseed：シード値を指定する。引数を指定しなかった場合、ランダムなシード値にする。
 - /setdifficulty：ゲーム難易度を引数で変更する。
@@ -65,6 +64,7 @@ https://twitter.com/insane_catt
 DMまでどうぞ
 
 ## バージョン履歴
+- v1.0.5：READMEの更新、ENバージョンの分離
 - v1.0.4：READMEの更新
 - v1.0.3：READMEの更新
 - v1.0.2：/logoutコマンドの実装
