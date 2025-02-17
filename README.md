@@ -64,6 +64,8 @@ https://twitter.com/insane_catt
 DMまでどうぞ
 
 ## バージョン履歴
+- v1.0.7：README更新とコメントの修正
+- v1.0.6：簡単な設定をconfig.pyに移動
 - v1.0.5：READMEの更新、ENバージョンの分離
 - v1.0.4：READMEの更新
 - v1.0.3：READMEの更新
