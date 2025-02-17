@@ -32,10 +32,10 @@ sudo apt install screen -y
 ## 使い方
 **PaperでのMinecraftサーバーは既に構築された状態を想定しています。** まずそれだけやって、それから以下のようにしてください。
 1. 画面右のRelasesよりパッケージをダウンロードする。
-1. パッケージ内のPythonファイル（拡張子が.py）をサーバーの実行ファイルのあるディレクトリに移動し、エディタで開く。
-1. 上層部の設定欄を任意で書き換えるか、ディレクトリ構成を「/home/pi/minecraft/java/paper」にし、そのpaperディレクトリをサーバーの実行ファイルのあるフォルダにする。
+1. パッケージ内のDiscordLaunchMC.pyとconfig.pyをサーバーの実行ファイルのあるディレクトリに移動し、config.pyをエディタで開く。
+1. 設定欄を任意で書き換えるか、ディレクトリ構成を「/home/pi/minecraft/java/paper」にし、そのpaperディレクトリをサーバーの実行ファイルのあるフォルダにする。
 1. https://discord.com/developers/applications にアクセスし、ログインし、New Applicationボタンをクリック。名前を付け、チェックを入れ、Createする。
-1. 画面左にBotと出るので、クリックし、Reset Tokenボタンを押し、Yes, do it!をクリック、その後Copyボタンを押して**トークンをダウンロードしてきたPythonファイル内の「TOKEN」と置き換える。**
+1. 画面左にBotと出るので、クリックし、Reset Tokenボタンを押し、Yes, do it!をクリック、その後Copyボタンを押して**トークンをconfig.py内の「TOKEN」と置き換える。**
 1. Privileged Gateway Intentsのところの切り替えスイッチを全部オンにし、下に出てきたSave changesボタンをクリック。
 1. 画面左のOAuth2→URL Generatorとクリックし、大量のチェックボックスの中からbot、applications.commandsにチェックを入れる。その後、下にまた出てきた大量のチェックボックスの中から、もうめんどくさいのでAdministrator（管理者って意味）をクリック。（セキュリティー的に怖かったらいちいち設定する必要があるけど攻撃されるかもとか思わなければ管理者でいいと思う、自分のbotだしトークンを人に教えたり流出しなければいい。）
 1. 一番下に出たGENERATED URLをコピーしてブラウザで開き、botをDiscordサーバーに招待する。
@@ -46,7 +46,7 @@ python3 DiscordLaunchMC.py
 
 ## 使えるコマンド一覧
 ### いつでも使えるコマンド
-- /hello：Hello, 【コマンドを実行したユーザー】!と返してくれる。誰でも使えるコマンド。
+- /hello：Hello, 【コマンドを実行したユーザー】!と返してくれる。誰でも使えるコマンド。botの動作確認などに使用できる。
 ### サーバー停止中にDiscordサーバー管理者のみ使えるコマンド
 - **/start**：サーバーを起動するコマンド。
 - /changeworld：遊ぶワールドを変更する。引数として、ワールド名を入力する必要がある。存在しないワールド名を入力することで、新しいワールドが生成される。
