@@ -18,11 +18,16 @@ client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
 
 
+#コマンド群 ------------------------------------------------------
+
+
+#helloコマンド
 @tree.command(name="hello", description="Hello, world!")
 async def hello(interaction: discord.Interaction):
     await interaction.response.send_message(f'Hello, {interaction.user.mention}!')
 
 
+#サーバー起動
 @tree.command(name="start", description="サーバーを起動する")
 @app_commands.default_permissions(administrator=True)
 async def start(interaction: discord.Interaction):
@@ -33,6 +38,7 @@ async def start(interaction: discord.Interaction):
         await interaction.response.send_message('サーバーを起動します。しばらくおまちください')
 
 
+#シード値設定
 @tree.command(name="setseed", description="ワールドのシード値を設定する")
 @app_commands.default_permissions(administrator=True)
 @app_commands.describe(seed='シード値')
@@ -60,6 +66,7 @@ async def setseed(interaction: discord.Interaction, seed: str = None):
             await interaction.response.send_message(f"シード値を【{seed}】に変更しました")
 
 
+#PVP設定
 @tree.command(name="setpvp", description="PVPの設定を変更する")
 @app_commands.default_permissions(administrator=True)
 @app_commands.describe(on_or_off="オンかオフか")
@@ -90,7 +97,7 @@ async def setpvp(interaction: discord.Interaction, on_or_off: str):
             await interaction.response.send_message("PVPの設定を **オフ** に変更しました")
 
 
-
+#ゲーム難易度設定
 @tree.command(name="setdifficulty", description="ゲーム難易度を変更する")
 @app_commands.default_permissions(administrator=True)
 @app_commands.describe(difficulty="難易度")
@@ -126,7 +133,7 @@ async def setdifficulty(interaction: discord.Interaction, difficulty: str):
             await interaction.response.send_message("ゲーム難易度を **ハード** に変更しました")
         
 
-
+#ワールド名指定
 @tree.command(
         name="changeworld", 
         description="遊ぶワールドを変更する。存在しないワールド名を入力することで、新しいワールドが生成される。"
@@ -152,6 +159,7 @@ async def changeworld(interaction: discord.Interaction, world: str):
         await interaction.response.send_message(f"ワールドを **{world}** に変更しました")
 
 
+#botの停止
 @tree.command(name="logout", description="このbotをログアウトさせる")
 @app_commands.default_permissions(administrator=True)
 async def exitbot(interaction: discord.Interaction):
@@ -161,6 +169,9 @@ async def exitbot(interaction: discord.Interaction):
         await interaction.response.send_message('ログアウトを実行します')
         print("The logout command has been executed.")
         sys.exit()
+
+
+#コマンド群ここまで ------------------------------------------------------
 
 
 def is_server_running():
