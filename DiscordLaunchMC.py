@@ -66,6 +66,29 @@ async def setseed(interaction: discord.Interaction, seed: str = None):
             await interaction.response.send_message(f"シード値を【{seed}】に変更しました")
 
 
+#最大プレイヤー数
+@tree.command(name="setmaxplayers", description="最大プレイヤー数を変更する")
+@app_commands.default_permissions(administrator=True)
+@app_commands.describe(maxplayers='最大プレイヤー数')
+async def setseed(interaction: discord.Interaction, maxplayers: int):
+    if is_server_running():
+        await interaction.response.send_message('サーバーが起動中のため、そのコマンドは実行できません')
+    else:
+        search_text = "max-players="
+        replace_text = f"max-players={maxplayers}"
+
+        with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'r') as file:
+            lines = file.readlines()
+
+        with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'w') as file:
+            for line in lines:
+                if search_text in line:
+                    line = replace_text + '\n'
+                file.write(line)
+
+        await interaction.response.send_message(f"最大プレイヤー数を【{maxplayers}】に変更しました")
+
+
 #PVP設定
 @tree.command(name="setpvp", description="PVPの設定を変更する")
 @app_commands.default_permissions(administrator=True)
