@@ -63,7 +63,7 @@ async def setseed(interaction: discord.Interaction, seed: str = None):
         if seed == None:
             await interaction.response.send_message("シード値をデフォルト（ランダム）に変更しました")
         else:
-            await interaction.response.send_message(f"シード値を【{seed}】に変更しました")
+            await interaction.response.send_message(f"シード値を `{seed}` に変更しました")
 
 
 #最大プレイヤー数
@@ -86,7 +86,7 @@ async def setseed(interaction: discord.Interaction, maxplayers: int):
                     line = replace_text + '\n'
                 file.write(line)
 
-        await interaction.response.send_message(f"最大プレイヤー数を【{maxplayers}】に変更しました")
+        await interaction.response.send_message(f"最大プレイヤー数を `{maxplayers}` に変更しました")
 
 
 #PVP設定
