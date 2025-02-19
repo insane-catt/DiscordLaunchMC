@@ -32,19 +32,27 @@ async def hello(interaction: discord.Interaction):
 @app_commands.default_permissions(administrator=True)
 async def start(interaction: discord.Interaction):
     if is_server_running():
-        await interaction.response.send_message('サーバーは既に起動しています')
+        embed = discord.Embed(
+            description="サーバーは既に起動しています"
+            )
+        await interaction.response.send_message(embed=embed, ephemeral=True)
     else:
         start_server()
-        await interaction.response.send_message('サーバーを起動します。しばらくおまちください')
+        embed = discord.Embed(
+            title="サーバーを起動します",
+            color=0x00ff00,
+            description="しばらくおまちください。"
+            )
+        await interaction.response.send_message(embed=embed)
 
 
 #シード値設定
-@tree.command(name="setseed", description="ワールドのシード値を設定する")
+@tree.command(name="setseed", description="ワールドのシード値を設定する。seed引数を設定せずに実行できます。")
 @app_commands.default_permissions(administrator=True)
 @app_commands.describe(seed='シード値')
 async def setseed(interaction: discord.Interaction, seed: str = None):
     if is_server_running():
-        await interaction.response.send_message('サーバーが起動中のため、そのコマンドは実行できません')
+        await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
     else:
         search_text = "level-seed="
         replace_text = f"level-seed={seed}"
@@ -61,18 +69,28 @@ async def setseed(interaction: discord.Interaction, seed: str = None):
                 file.write(line)
 
         if seed == None:
-            await interaction.response.send_message("シード値をデフォルト（ランダム）に変更しました")
+            embed = discord.Embed(
+                title="シード値を変更しました",
+                color=0x00ff00,
+                description="シード値が設定されていないので、世界はランダムに生成されます。"
+                )
+            await interaction.response.send_message(embed=embed)
         else:
-            await interaction.response.send_message(f"シード値を `{seed}` に変更しました")
+            embed = discord.Embed(
+                title="シード値を変更しました",
+                color=0x00ff00,
+                description=f"新しいシード値は `{seed}` です。"
+                )
+            await interaction.response.send_message(embed=embed)
 
 
 #最大プレイヤー数
 @tree.command(name="setmaxplayers", description="最大プレイヤー数を変更する")
 @app_commands.default_permissions(administrator=True)
 @app_commands.describe(maxplayers='最大プレイヤー数')
-async def setseed(interaction: discord.Interaction, maxplayers: int):
+async def setmaxplayers(interaction: discord.Interaction, maxplayers: int):
     if is_server_running():
-        await interaction.response.send_message('サーバーが起動中のため、そのコマンドは実行できません')
+        await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
     else:
         search_text = "max-players="
         replace_text = f"max-players={maxplayers}"
@@ -85,8 +103,12 @@ async def setseed(interaction: discord.Interaction, maxplayers: int):
                 if search_text in line:
                     line = replace_text + '\n'
                 file.write(line)
-
-        await interaction.response.send_message(f"最大プレイヤー数を `{maxplayers}` に変更しました")
+        embed = discord.Embed(
+            title="最大プレイヤー数を変更しました",
+            color=0x00ff00,
+            description=f"新しい最大プレイヤー数は `{maxplayers}` です。"
+            )
+        await interaction.response.send_message(embed=embed)
 
 
 #PVP設定
@@ -101,7 +123,7 @@ async def setseed(interaction: discord.Interaction, maxplayers: int):
 )
 async def setpvp(interaction: discord.Interaction, on_or_off: str):
     if is_server_running():
-        await interaction.response.send_message("サーバーが起動中のため、そのコマンドは実行できません")
+        await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
     else:
         search_text = "pvp="
         replace_text = f"pvp={on_or_off}"
@@ -115,9 +137,19 @@ async def setpvp(interaction: discord.Interaction, on_or_off: str):
                 file.write(line)
 
         if on_or_off == "true":
-            await interaction.response.send_message("PVPの設定を **オン** に変更しました")
+            embed = discord.Embed(
+                title="PVPの設定を変更しました",
+                color=0x00ff00,
+                description=f"PVPの設定は **オン** になりました"
+                )
+            await interaction.response.send_message(embed=embed)
         else:
-            await interaction.response.send_message("PVPの設定を **オフ** に変更しました")
+            embed = discord.Embed(
+                title="PVPの設定を変更しました",
+                color=0x00ff00,
+                description=f"PVPの設定は **オフ** になりました"
+                )
+            await interaction.response.send_message(embed=embed)
 
 
 #ゲーム難易度設定
@@ -134,7 +166,7 @@ async def setpvp(interaction: discord.Interaction, on_or_off: str):
 )
 async def setdifficulty(interaction: discord.Interaction, difficulty: str):
     if is_server_running():
-        await interaction.response.send_message("サーバーが起動中のため、そのコマンドは実行できません")
+        await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
     else:
         search_text = "difficulty="
         replace_text = f"difficulty={difficulty}"
@@ -147,13 +179,19 @@ async def setdifficulty(interaction: discord.Interaction, difficulty: str):
                     line = replace_text + '\n'
                 file.write(line)
         if difficulty == "peaceful":
-            await interaction.response.send_message("ゲーム難易度を **ピースフル** に変更しました")
+            difficulty = "ピースフル"
         elif difficulty == "easy":
-            await interaction.response.send_message("ゲーム難易度を **イージー** に変更しました")
+            difficulty = "イージー"
         elif difficulty == "normal":
-            await interaction.response.send_message("ゲーム難易度を **ノーマル** に変更しました")
+            difficulty = "ノーマル"
         else:
-            await interaction.response.send_message("ゲーム難易度を **ハード** に変更しました")
+            difficulty = "ハード"
+        embed = discord.Embed(
+            title="ゲーム難易度を変更しました",
+            color=0x00ff00,
+            description=f"ゲーム難易度は **{difficulty}** になりました"
+            )
+        await interaction.response.send_message(embed=embed)
         
 
 #ワールド名指定
@@ -165,7 +203,7 @@ async def setdifficulty(interaction: discord.Interaction, difficulty: str):
 @app_commands.describe(world='ワールド名')
 async def changeworld(interaction: discord.Interaction, world: str):
     if is_server_running():
-        await interaction.response.send_message('サーバーが起動中のため、そのコマンドは実行できません')
+        await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
     else:
         search_text = "level-name="
         replace_text = f"level-name={world}"
@@ -178,8 +216,12 @@ async def changeworld(interaction: discord.Interaction, world: str):
                 if search_text in line:
                     line = replace_text + '\n'
                 file.write(line)
-
-        await interaction.response.send_message(f"ワールドを **{world}** に変更しました")
+        embed = discord.Embed(
+            title="遊ぶワールドを変更しました",
+            color=0x00ff00,
+            description=f"サーバーを起動すると、ワールド名 `{world}` が読み込まれます"
+            )
+        await interaction.response.send_message(embed=embed)
 
 
 #botの停止
@@ -187,9 +229,13 @@ async def changeworld(interaction: discord.Interaction, world: str):
 @app_commands.default_permissions(administrator=True)
 async def exitbot(interaction: discord.Interaction):
     if is_server_running():
-        await interaction.response.send_message('サーバーが起動しています。そのコマンドを実行するには、サーバーを終了してください。')
+        await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
     else:
-        await interaction.response.send_message('ログアウトを実行します')
+        embed = discord.Embed(
+            title="ログアウトします",
+            description="botは停止されます。"
+            )
+        await interaction.response.send_message(embed=embed)
         print("The logout command has been executed.")
         sys.exit()
 
@@ -201,6 +247,14 @@ def is_server_running():
     process = subprocess.Popen(f"screen -ls {SCREEN_NAME}", stdout=subprocess.PIPE, shell=True)
     output, _ = process.communicate()
     return SCREEN_NAME in output.decode()
+
+def server_is_running():
+    embed = discord.Embed(
+        title="エラー：サーバーが起動中です",
+        color=0xff0000,
+        description="そのコマンドを実行するには、サーバーを終了してください。"
+        )
+    return embed
 
 def start_server():
     subprocess.Popen(f"screen -dmS {SCREEN_NAME} java -Xmx{MAX_RAM}G -Xms{MIN_RAM}G -jar {JAR_FILE} nogui", shell=True)
