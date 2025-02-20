@@ -18,38 +18,48 @@ client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
 
 
+#翻訳
+from languages import dictionary
+def tr(text):
+    if LANG == "jp":
+        return text
+    else:
+        return dictionary[LANG][text]
+
+
+
 #コマンド群 ------------------------------------------------------
 
 
 #helloコマンド
 @tree.command(name="hello", description="Hello, world!")
 async def hello(interaction: discord.Interaction):
-    await interaction.response.send_message(f'Hello, {interaction.user.mention}!')
+    await interaction.response.send_message(tr("こんにちは、") + interaction.user.name + tr("さん！"))
 
 
 #サーバー起動
-@tree.command(name="start", description="サーバーを起動する")
+@tree.command(name="start", description=tr("サーバーを起動する"))
 @app_commands.default_permissions(administrator=True)
 async def start(interaction: discord.Interaction):
     if is_server_running():
         embed = discord.Embed(
-            description="サーバーは既に起動しています"
+            description=tr("サーバーは既に起動しています")
             )
         await interaction.response.send_message(embed=embed, ephemeral=True)
     else:
         start_server()
         embed = discord.Embed(
-            title="サーバーを起動します",
+            title=tr("サーバーを起動します"),
             color=0x00ff00,
-            description="しばらくおまちください。"
+            description=tr("しばらくおまちください。")
             )
         await interaction.response.send_message(embed=embed)
 
 
 #シード値設定
-@tree.command(name="setseed", description="ワールドのシード値を設定する。seed引数を設定せずに実行できます。")
+@tree.command(name="setseed", description=tr("ワールドのシード値を設定する。seed引数を設定せずに実行できます。"))
 @app_commands.default_permissions(administrator=True)
-@app_commands.describe(seed='シード値')
+@app_commands.describe(seed=tr('シード値'))
 async def setseed(interaction: discord.Interaction, seed: str = None):
     if is_server_running():
         await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
@@ -70,24 +80,24 @@ async def setseed(interaction: discord.Interaction, seed: str = None):
 
         if seed == None:
             embed = discord.Embed(
-                title="シード値を変更しました",
+                title=tr("シード値を変更しました"),
                 color=0x00ff00,
-                description="シード値が設定されていないので、世界はランダムに生成されます。"
+                description=tr("シード値が設定されていないので、世界はランダムに生成されます。")
                 )
             await interaction.response.send_message(embed=embed)
         else:
             embed = discord.Embed(
-                title="シード値を変更しました",
+                title=tr("シード値を変更しました"),
                 color=0x00ff00,
-                description=f"新しいシード値は `{seed}` です。"
+                description=tr("新しいシード値: ") + f"`{seed}`"
                 )
             await interaction.response.send_message(embed=embed)
 
 
 #最大プレイヤー数
-@tree.command(name="setmaxplayers", description="最大プレイヤー数を変更する")
+@tree.command(name="setmaxplayers", description=tr("最大プレイヤー数を変更する"))
 @app_commands.default_permissions(administrator=True)
-@app_commands.describe(maxplayers='最大プレイヤー数')
+@app_commands.describe(maxplayers=tr('最大プレイヤー数'))
 async def setmaxplayers(interaction: discord.Interaction, maxplayers: int):
     if is_server_running():
         await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
@@ -104,21 +114,21 @@ async def setmaxplayers(interaction: discord.Interaction, maxplayers: int):
                     line = replace_text + '\n'
                 file.write(line)
         embed = discord.Embed(
-            title="最大プレイヤー数を変更しました",
+            title=tr("最大プレイヤー数を変更しました"),
             color=0x00ff00,
-            description=f"新しい最大プレイヤー数は `{maxplayers}` です。"
+            description=tr("新しい最大プレイヤー数: ") + f"`{maxplayers}`"
             )
         await interaction.response.send_message(embed=embed)
 
 
 #PVP設定
-@tree.command(name="setpvp", description="PVPの設定を変更する")
+@tree.command(name="setpvp", description=tr("PVPの設定を変更する"))
 @app_commands.default_permissions(administrator=True)
-@app_commands.describe(on_or_off="オンかオフか")
+@app_commands.describe(on_or_off=tr("オンかオフか"))
 @app_commands.choices(
     on_or_off=[
-        discord.app_commands.Choice(name="オン",value="true"),
-        discord.app_commands.Choice(name="オフ",value="false")
+        discord.app_commands.Choice(name=tr("オン"),value="true"),
+        discord.app_commands.Choice(name=tr("オフ"),value="false")
     ]
 )
 async def setpvp(interaction: discord.Interaction, on_or_off: str):
@@ -137,31 +147,28 @@ async def setpvp(interaction: discord.Interaction, on_or_off: str):
                 file.write(line)
 
         if on_or_off == "true":
-            embed = discord.Embed(
-                title="PVPの設定を変更しました",
-                color=0x00ff00,
-                description=f"PVPの設定は **オン** になりました"
-                )
-            await interaction.response.send_message(embed=embed)
+            on_or_off = tr("オン")
         else:
-            embed = discord.Embed(
-                title="PVPの設定を変更しました",
-                color=0x00ff00,
-                description=f"PVPの設定は **オフ** になりました"
-                )
-            await interaction.response.send_message(embed=embed)
+            on_or_off = tr("オフ")
+
+        embed = discord.Embed(
+            title=tr("PVPの設定を変更しました"),
+            color=0x00ff00,
+            description=tr("新しいPVPの設定: ") + f"**{on_or_off}**"
+            )
+        await interaction.response.send_message(embed=embed)
 
 
 #ゲーム難易度設定
-@tree.command(name="setdifficulty", description="ゲーム難易度を変更する")
+@tree.command(name="setdifficulty", description=tr("ゲーム難易度を変更する"))
 @app_commands.default_permissions(administrator=True)
-@app_commands.describe(difficulty="難易度")
+@app_commands.describe(difficulty=tr("ゲーム難易度"))
 @app_commands.choices(
     difficulty=[
-        discord.app_commands.Choice(name="ピースフル",value="peaceful"),
-        discord.app_commands.Choice(name="イージー",value="easy"),
-        discord.app_commands.Choice(name="ノーマル",value="normal"),
-        discord.app_commands.Choice(name="ハード",value="hard")
+        discord.app_commands.Choice(name=tr("ピースフル"),value="peaceful"),
+        discord.app_commands.Choice(name=tr("イージー"),value="easy"),
+        discord.app_commands.Choice(name=tr("ノーマル"),value="normal"),
+        discord.app_commands.Choice(name=tr("ハード"),value="hard")
     ]
 )
 async def setdifficulty(interaction: discord.Interaction, difficulty: str):
@@ -179,17 +186,17 @@ async def setdifficulty(interaction: discord.Interaction, difficulty: str):
                     line = replace_text + '\n'
                 file.write(line)
         if difficulty == "peaceful":
-            difficulty = "ピースフル"
+            difficulty = tr("ピースフル")
         elif difficulty == "easy":
-            difficulty = "イージー"
+            difficulty = tr("イージー")
         elif difficulty == "normal":
-            difficulty = "ノーマル"
+            difficulty = tr("ノーマル")
         else:
-            difficulty = "ハード"
+            difficulty = tr("ハード")
         embed = discord.Embed(
-            title="ゲーム難易度を変更しました",
+            title=tr("ゲーム難易度を変更しました"),
             color=0x00ff00,
-            description=f"ゲーム難易度は **{difficulty}** になりました"
+            description=tr("新しいゲーム難易度: ") + f"**{difficulty}**"
             )
         await interaction.response.send_message(embed=embed)
         
@@ -197,10 +204,10 @@ async def setdifficulty(interaction: discord.Interaction, difficulty: str):
 #ワールド名指定
 @tree.command(
         name="changeworld", 
-        description="遊ぶワールドを変更する。存在しないワールド名を入力することで、新しいワールドが生成される。"
+        description=tr("遊ぶワールドを変更する。存在しないワールド名を入力することで、新しいワールドが生成される。")
         )
 @app_commands.default_permissions(administrator=True)
-@app_commands.describe(world='ワールド名')
+@app_commands.describe(world=tr('ワールド名'))
 async def changeworld(interaction: discord.Interaction, world: str):
     if is_server_running():
         await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
@@ -217,23 +224,23 @@ async def changeworld(interaction: discord.Interaction, world: str):
                     line = replace_text + '\n'
                 file.write(line)
         embed = discord.Embed(
-            title="遊ぶワールドを変更しました",
+            title=tr("遊ぶワールドを変更しました"),
             color=0x00ff00,
-            description=f"サーバーを起動すると、ワールド名 `{world}` が読み込まれます"
+            description=tr("次のワールドが読み込まれます: ") + f"`{world}`"
             )
         await interaction.response.send_message(embed=embed)
 
 
 #botの停止
-@tree.command(name="logout", description="このbotをログアウトさせる")
+@tree.command(name="logout", description=tr("このbotをログアウトさせる"))
 @app_commands.default_permissions(administrator=True)
 async def exitbot(interaction: discord.Interaction):
     if is_server_running():
         await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
     else:
         embed = discord.Embed(
-            title="ログアウトします",
-            description="botは停止されます。"
+            title=tr("ログアウトします"),
+            description=tr("botは停止されます。")
             )
         await interaction.response.send_message(embed=embed)
         print("The logout command has been executed.")
@@ -250,9 +257,9 @@ def is_server_running():
 
 def server_is_running():
     embed = discord.Embed(
-        title="エラー：サーバーが起動中です",
+        title=tr("エラー：サーバーが起動中です"),
         color=0xff0000,
-        description="そのコマンドを実行するには、サーバーを終了してください。"
+        description=tr("そのコマンドを実行するには、サーバーを終了してください。")
         )
     return embed
 

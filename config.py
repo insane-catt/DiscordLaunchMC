@@ -1,9 +1,9 @@
 # 以下は簡単な設定欄です。Below is a simple configuration field.
 # 文字列はダブルクォーテーションで "このように" 囲ってください。Please enclose the string in double quotes "like this".
 
-# 使用する言語を選択してください。日本語は"ja"、英語は"en"を入力してください。
-# Please select the language you want to use. Enter "ja" for Japanese and "en" for English.
-LANG = "ja"
+# 使用する言語を選択してください。日本語は"jp"、英語は"en"を入力してください。
+# Please select the language you want to use. Enter "jp" for Japanese and "en" for English.
+LANG = "jp"
 
 # Discord botのトークンを入力してください。
 # Please enter your Discord bot token.
