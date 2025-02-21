@@ -55,7 +55,8 @@ python3 DiscordLaunchMC.py
 - `/changeworld`：遊ぶワールドを変更する。引数として、ワールド名を入力する必要がある。存在しないワールド名を入力することで、新しいワールドが生成される。
 - `/setseed`：シード値を指定する。引数を指定しなかった場合、ランダムなシード値にする。
 - `/setdifficulty`：ゲーム難易度を引数で変更する。
-- `/setpvp`：PVPのオンオフを引数で指定する。
+- `/setpvp`：PVPのオンオフを引数で変更する。
+- `/sethardcore`：ハードコアのオンオフを引数で変更する。
 - `/setmaxplayers`：最大プレイヤー数を変更できる。
 - `/logout`：Botを停止させる。
 
@@ -134,7 +135,8 @@ python3 DiscordLaunchMC.py
 - `/changeworld`: Change the world you play in. You need to enter the world name as an argument. Entering a non-existent world name will generate a new world.
 - `/setseed`: Specify a seed value. If no argument is specified, it will use a random seed value.
 - `/setdifficulty`: Change the game difficulty with an argument.
-- `/setpvp`: Specify whether to turn PVP on or off with an argument.
+- `/setpvp`: Change PVP on/off by argument.
+- `/sethardcore`: Change hardcore on/off by argument.
 - `/setmaxplayers`: change the maximum number of players.
 - `/logout`: Stop the bot.
 
