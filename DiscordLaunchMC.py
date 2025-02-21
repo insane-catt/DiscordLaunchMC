@@ -159,6 +159,44 @@ async def setpvp(interaction: discord.Interaction, on_or_off: str):
         await interaction.response.send_message(embed=embed)
 
 
+#hardcore設定
+@tree.command(name="sethardcore", description=tr("ハードコアの設定を変更する"))
+@app_commands.default_permissions(administrator=True)
+@app_commands.describe(on_or_off=tr("オンかオフか"))
+@app_commands.choices(
+    on_or_off=[
+        discord.app_commands.Choice(name=tr("オン"),value="true"),
+        discord.app_commands.Choice(name=tr("オフ"),value="false")
+    ]
+)
+async def sethardcore(interaction: discord.Interaction, on_or_off: str):
+    if is_server_running():
+        await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
+    else:
+        search_text = "hardcore="
+        replace_text = f"hardcore={on_or_off}"
+        with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'r') as file:
+            lines = file.readlines()
+
+        with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'w') as file:
+            for line in lines:
+                if search_text in line:
+                    line = replace_text + '\n'
+                file.write(line)
+
+        if on_or_off == "true":
+            on_or_off = tr("オン")
+        else:
+            on_or_off = tr("オフ")
+
+        embed = discord.Embed(
+            title=tr("ハードコアの設定を変更しました"),
+            color=0x00ff00,
+            description=tr("新しいハードコアの設定: ") + f"**{on_or_off}**"
+            )
+        await interaction.response.send_message(embed=embed)
+
+
 #ゲーム難易度設定
 @tree.command(name="setdifficulty", description=tr("ゲーム難易度を変更する"))
 @app_commands.default_permissions(administrator=True)
