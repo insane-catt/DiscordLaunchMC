@@ -58,6 +58,7 @@ python3 DiscordLaunchMC.py
 - `/setpvp`：PVPのオンオフを引数で変更する。
 - `/sethardcore`：ハードコアのオンオフを引数で変更する。
 - `/setmaxplayers`：最大プレイヤー数を変更できる。
+- `/setdirectly`：server.propertiesのプロパティ名を入れ、コマンドを送信後、`=`に続く設定したい値を送信すると、server.propertiesのプロパティを直接編集できる。このコマンドは慎重に使わないとサーバーが意図しない動作をする可能性があるので、気を付けて。
 - `/logout`：Botを停止させる。
 
 その他、ゲームモード（サバイバルとかクリエイティブとか）だったりはサーバー起動中にSRVとかのコンソールとかに入力してください。**気が向いたり要望があれば機能追加します。コメントください。**
@@ -69,7 +70,7 @@ https://twitter.com/insane_catt
 DMまでどうぞ
 
 ## バージョン履歴
-- v1.1：config.pyから英語を利用可能にした。また、/setmaxplayersコマンドを実装した。
+- v1.1：config.pyから英語を利用可能にした。また、/setmaxplayersコマンドと/setdirectlyコマンドを実装した。
 - v1.0.7：README更新とコメントの修正
 - v1.0.6：簡単な設定をconfig.pyに移動
 - v1.0.5：READMEの更新、ENバージョンの分離
@@ -138,6 +139,7 @@ python3 DiscordLaunchMC.py
 - `/setpvp`: Change PVP on/off by argument.
 - `/sethardcore`: Change hardcore on/off by argument.
 - `/setmaxplayers`: change the maximum number of players.
+- `/setdirectly`: You can edit the properties of server.properties directly by entering the property name in server.properties and sending the value you want to set following `=` after sending the command. This command must be used carefully or the server may behave in an unintended way.
 - `/logout`: Stop the bot.
 
 For other things like game mode (survival or creative or something), please enter them on SRV or something console or something while the server is running. **I will add features if I feel like it or if there are requests. Please comment.**
@@ -149,7 +151,7 @@ https://twitter.com/insane_catt
 Please DM me
 
 ## Version history
-- v1.1: Enabled to use English from the config.py. Also, implemented /setmaxplayers command.
+- v1.1: Enabled to use English from the config.py. Also, implemented /setmaxplayers and /setdirectly command.
 - v1.0.7-en: Updated README and revised comments
 - v1.0.6-en: Moved simple settings to config.py
 - v1.0.5-en: Updated README and separated the English version
