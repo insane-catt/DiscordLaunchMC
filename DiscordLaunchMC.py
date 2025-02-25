@@ -272,6 +272,7 @@ async def changeworld(interaction: discord.Interaction, world: str):
         await interaction.response.send_message(embed=embed)
 
 
+#server.propertiesの直接編集コマンド
 @tree.command(name="setdirectly", description=tr("server.propertiesを直接編集する。※間違えないように慎重に使ってください！"))
 @app_commands.default_permissions(administrator=True)
 @app_commands.describe(property_name=tr("プロパティ名"))
