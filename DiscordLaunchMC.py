@@ -323,6 +323,33 @@ async def setdirectly(interaction: discord.Interaction, property_name: str):
         await interaction.followup.send(embed=embed)
 
 
+#server.properties内のプロパティの検索コマンド
+@tree.command(name="searchproperty", description=tr("プロパティ名の一部を指定して一致するプロパティを検索する"))
+@app_commands.default_permissions(administrator=True)
+@app_commands.describe(partial_name=tr("プロパティ名の一部"))
+async def searchproperty(interaction: discord.Interaction, partial_name: str):
+    search_text = partial_name
+    matching_properties = []
+
+    with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'r') as file:
+        lines = file.readlines()
+
+    for line in lines:
+        if search_text in line:
+            matching_properties.append(line.strip())
+
+    if not matching_properties:
+        await interaction.response.send_message(tr(f"次に一致する設定が見つかりませんでした:\n") + f"`{partial_name}`", ephemeral=True)
+    else:
+        properties_list = "\n".join(matching_properties)
+        embed = discord.Embed(
+            title=tr("一致するプロパティが見つかりました"),
+            color=0x00ff00,
+            description=tr("次のプロパティが見つかりました:\n") + f"```\n{properties_list}\n```"
+        )
+        await interaction.response.send_message(embed=embed, ephemeral=True)
+
+
 #botの停止
 @tree.command(name="logout", description=tr("このbotをログアウトさせる"))
 @app_commands.default_permissions(administrator=True)
