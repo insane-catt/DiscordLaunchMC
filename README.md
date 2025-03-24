@@ -71,6 +71,7 @@ https://twitter.com/insane_catt
 DMまでどうぞ
 
 ## バージョン履歴
+- v1.1.1：毎日botの名前を出力することでコンソールでどのbotが稼働しているかわかるようにした。
 - v1.1：config.pyから英語を利用可能にした。また、/setmaxplayersコマンド、/setdirectlyコマンド、/searchpropertyコマンドを実装した。
 - v1.0.7：README更新とコメントの修正
 - v1.0.6：簡単な設定をconfig.pyに移動
@@ -153,6 +154,7 @@ https://twitter.com/insane_catt
 Please DM me
 
 ## Version history
+- v1.1.1: Added functionality to output the bot's name daily, making it easier to identify which bot is running in the console.
 - v1.1: Enabled to use English from the config.py. Also, implemented /setmaxplayers, /setdirectly and /searchproperty command.
 - v1.0.7-en: Updated README and revised comments
 - v1.0.6-en: Moved simple settings to config.py
