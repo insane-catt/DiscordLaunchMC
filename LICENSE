@@ -1,21 +1,25 @@
-MIT License
+Copyright © 2025 insane_catt
 
-Copyright © 2023 insane_catt
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+1. The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+2. The Software shall not be used for any purpose that promotes, enables, or facilitates:
+   - War or armed conflict;
+   - Discrimination or harm based on gender, sexual orientation, disability, ethnicity, religion, or social status;
+   - Oppression or exploitation of marginalized or vulnerable groups.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+本ソフトウェアおよび付随するドキュメントファイル（以下「ソフトウェア」）の複製、改変、統合、公開、配布、サブライセンス、および販売を含むあらゆる利用を、無償で、制限なく許可します。ただし、以下の条件を満たす必要があります。
+
+1. 上記の著作権表示および本許諾表示は、ソフトウェアのすべての複製または重要な部分に含めるものとします。
+
+2. 本ソフトウェアは、以下の目的での使用を禁止します：
+   - 戦争または武力衝突の助長、促進、または実行；
+   - 性別、性的指向、障害、人種、宗教、または社会的地位に基づく差別や加害行為；
+   - 社会的弱者または疎外された人々の抑圧や搾取。
+
+本ソフトウェアは「現状のまま」提供され、明示的または黙示的ないかなる保証もありません。商品性、特定目的への適合性、および権利非侵害の保証を含みますが、それに限られません。著作権者または権利者は、本ソフトウェアの使用またはその他の取引に起因または関連するいかなる請求、損害、その他の責任についても責任を負いません。

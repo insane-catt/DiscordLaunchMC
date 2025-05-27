@@ -1,3 +1,9 @@
+### 重要
+ライセンスを変更しました。詳しくは[こちら](#license--ライセンスが変更されました)と`LICENSE`ファイルをご覧ください。
+
+### Important Notice
+The license has been changed. For details, please see [here](#license-has-been-changed) and the `LICENSE` file.
+
 # DiscordLaunchMC
 MinecraftサーバーをDiscordから起動するツールです。<br>
 If you need an English version, [the English README is available here.](#discordlaunchmc-english-readme)<br>
@@ -70,15 +76,28 @@ https://twitter.com/insane_catt
 
 DMまでどうぞ
 
+## License / ライセンスが変更されました。
+本ソフトウェアは、もともと MIT ライセンスのもとで公開されていました。
+
+バージョン 1.2.0 以降は、MIT ライセンスを基にした独自の倫理的ライセンスのもとで配布されています。  
+この新しいライセンスでは、戦争、差別、社会的弱者への加害などの目的での使用を禁止しています。  
+詳細は `LICENSE` ファイルをご覧ください。
+
+### なぜライセンスを変更したのか？
+
+私は、ソフトウェアが他者を傷つけたり、不正義に加担することに使われるべきではないと考えています。  
+このライセンスは、戦争、差別、抑圧に反対する私自身の立場を反映したものです。
+
 ## バージョン履歴
+- v1.2.0：**ライセンスの変更**、READMEの更新、`/allowlist`コマンドの追加
 - v1.1.1：毎日botの名前を出力することでコンソールでどのbotが稼働しているかわかるようにした。
-- v1.1：config.pyから英語を利用可能にした。また、/setmaxplayersコマンド、/setdirectlyコマンド、/searchpropertyコマンドを実装した。
+- v1.1：`config.py`から英語を利用可能にした。また、`/setmaxplayers`コマンド、`/setdirectly`コマンド、`/searchproperty`コマンドを実装した。
 - v1.0.7：README更新とコメントの修正
-- v1.0.6：簡単な設定をconfig.pyに移動
+- v1.0.6：簡単な設定を`config.py`に移動
 - v1.0.5：READMEの更新、ENバージョンの分離
 - v1.0.4：READMEの更新
 - v1.0.3：READMEの更新
-- v1.0.2：/logoutコマンドの実装
+- v1.0.2：`/logout`コマンドの実装
 - v1.0.1：サーバーを起動する際のメッセージ若干変更
 - v1.0.0
 
@@ -153,14 +172,26 @@ https://twitter.com/insane_catt
 
 Please DM me
 
+## License has been changed.
+This software was originally released under the MIT License.
+
+Starting from version 1.2.0, it is released under a custom ethical license based on the MIT License.  
+This new license prohibits the use of the software for war, discrimination, or harm against vulnerable people.  
+Please refer to the `LICENSE` file for details.
+
+### Why the License Change
+I believe software should not be used to harm others or support injustice.  
+This license reflects my personal stance against war, discrimination, and oppression.
+
 ## Version history
+- v1.2.0: **License change**, updated README, added `/allowlist` command
 - v1.1.1: Added functionality to output the bot's name daily, making it easier to identify which bot is running in the console.
-- v1.1: Enabled to use English from the config.py. Also, implemented /setmaxplayers, /setdirectly and /searchproperty command.
+- v1.1: Enabled to use English from the `config.py`. Also, implemented `/setmaxplayers`, `/setdirectly` and `/searchproperty` command.
 - v1.0.7-en: Updated README and revised comments
-- v1.0.6-en: Moved simple settings to config.py
+- v1.0.6-en: Moved simple settings to `config.py`
 - v1.0.5-en: Updated README and separated the English version
 - v1.0.4: Updated README
 - v1.0.3: Updated README
-- v1.0.2: Implemented /logout command
+- v1.0.2: Implemented `/logout` command
 - v1.0.1: Slightly changed message when starting server
 - v1.0.0

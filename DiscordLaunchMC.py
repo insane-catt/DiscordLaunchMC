@@ -1,6 +1,5 @@
-# EN: This file is DiscordLaunchMC (Japanese version). If you want to use English, please use DiscordLaunchMC-en.
-# JP: このファイルはDiscordLaunchMC（日本語版）です。英語を使用したい場合は、DiscordLaunchMC-enを使用してください。
-# DiscordLaunchMC-en: https://github.com/insane-catt/DiscordLaunchMC-en
+# 重要：ライセンスを変更しました。詳しくはREADMEとLICENSEを参照してください。
+# Important note: The license has been changed. Please refer to README and LICENSE for details.
 
 #以前ここにあった設定欄はconfig.pyに移動しました。
 from config import *
@@ -14,6 +13,9 @@ import subprocess
 import sys
 import asyncio
 from datetime import datetime
+import os
+import requests
+import json
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -377,8 +379,81 @@ async def exitbot(interaction: discord.Interaction):
         sys.exit()
 
 
+#allowlistの設定
+@tree.command(name="allowlist", description=tr("サーバーに参加できるユーザーの許可リストを設定する"))
+@app_commands.default_permissions(administrator=True)
+@app_commands.describe(add_or_delete=tr("追加または削除"), user=tr("許可するユーザー"))
+@app_commands.choices(
+    add_or_delete=[
+        discord.app_commands.Choice(name=tr("追加"), value="add"),
+        discord.app_commands.Choice(name=tr("削除"), value="remove")
+    ]
+)
+async def allowlist(interaction: discord.Interaction, add_or_delete: str, user: str):
+    whitelist_file = f"{HOME_DIRECTORY}/{SERVER_PATH}/whitelist.json"
+    def get_uuid(username):
+        response = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username}")
+        if response.status_code == 200:
+            data = response.json()
+            uuid = data["id"]
+            uuid = f"{uuid[0:8]}-{uuid[8:12]}-{uuid[12:16]}-{uuid[16:20]}-{uuid[20:]}"
+            return uuid
+        return None
+    if os.path.exists(whitelist_file):
+        with open(whitelist_file, 'r') as f:
+            try:
+                whitelist = json.load(f)
+            except Exception:
+                whitelist = []
+    else:
+        whitelist = []
+    if is_server_running():
+        await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
+    else:
+        if add_or_delete == "add":
+            uuid = get_uuid(user)
+            if not uuid:
+                await interaction.response.send_message(embed=error(tr("UUIDの取得に失敗しました"), tr("ユーザー名：") + user), ephemeral=True)
+                return
+            # ユーザーが既に許可リストに存在するか確認
+            if any(entry['uuid'] == uuid for entry in whitelist):
+                await interaction.response.send_message(embed=error(tr("このユーザーは既に許可リストに存在します"), tr("ユーザー名：") + user), ephemeral=True)
+                return
+            whitelist.append({"uuid": uuid, "name": user})
+            # allowlist.jsonに書き込む
+            with open(whitelist_file, 'w') as f:
+                json.dump(whitelist, f, indent=2)
+            await interaction.response.send_message(embed=success(tr("許可リストに追加しました"), tr("許可リストに追加されたユーザー：") + user))
+        elif add_or_delete == "remove":
+            new_whitelist = [entry for entry in whitelist if entry['name'] != user]
+            if len(new_whitelist) == len(whitelist):
+                await interaction.response.send_message(embed=error(tr("このユーザーは許可リストに存在しません"), tr("ユーザー名：") + user), ephemeral=True)
+                return
+            with open(whitelist_file, 'w') as f:
+                json.dump(new_whitelist, f, indent=2)
+            await interaction.response.send_message(embed=success(tr("許可リストから削除しました"), tr("許可リストから削除されたユーザー：") + user))
+        else:
+            await interaction.response.send_message(embed=error(tr("無効なオプションです。"), ephemeral=True))
+
+
 #コマンド群ここまで ------------------------------------------------------
 
+
+def success(title, description):
+    embed = discord.Embed(
+        title=title,
+        color=0x00ff00, # 緑
+        description=description
+        )
+    return embed
+
+def error(title, description):
+    embed = discord.Embed(
+        title=title,
+        color=0xff0000, # 赤
+        description=description
+        )
+    return embed
 
 def is_server_running():
     process = subprocess.Popen(f"screen -ls {SCREEN_NAME}", stdout=subprocess.PIPE, shell=True)
