@@ -66,6 +66,7 @@ python3 DiscordLaunchMC.py
 - `/setmaxplayers`：最大プレイヤー数を変更できる。
 - `/setdirectly`：server.propertiesのプロパティ名を入れ、コマンドを送信後、`=`に続く設定したい値を送信すると、server.propertiesのプロパティを直接編集できる。このコマンドは慎重に使わないとサーバーが意図しない動作をする可能性があるので、気を付けて。
 - `/searchproperty`：`/setdirectly`コマンドを使う際などにプロパティ名の一部しか覚えていない場合、このコマンドでプロパティ名の一部を送信するとプロパティを検索することができる。プロパティの現在の設定もここで確認できる。
+- `/allowlist`：サーバーに参加できるユーザーを、`user`引数にいれて追加できる。許可リスト（whitelist.json）を編集する。
 - `/logout`：Botを停止させる。
 
 その他、ゲームモード（サバイバルとかクリエイティブとか）だったりはサーバー起動中にSRVとかのコンソールとかに入力してください。**気が向いたり要望があれば機能追加します。コメントください。**
@@ -162,6 +163,7 @@ python3 DiscordLaunchMC.py
 - `/setmaxplayers`: change the maximum number of players.
 - `/setdirectly`: You can edit the properties of server.properties directly by entering the property name in server.properties and sending the value you want to set following `=` after sending the command. This command must be used carefully or the server may behave in an unintended way.
 - `/searchproperty`: If you only remember part of a property name, such as when using the `/setdirectly` command, you can search for a property by sending part of the property name with this command.The property's current settings can also be viewed here.
+- `/allowlist`: Adds users who can join the server by specifying the `user` argument. Edits the allowlist (`whitelist.json`).
 - `/logout`: Stop the bot.
 
 For other things like game mode (survival or creative or something), please enter them on SRV or something console or something while the server is running. **I will add features if I feel like it or if there are requests. Please comment.**
