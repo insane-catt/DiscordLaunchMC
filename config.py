@@ -11,11 +11,7 @@ TOKEN = "TOKEN"
 
 # Minecraft実行ファイルのあるフォルダのホームディレクトリからのパスを入力してください。
 # Please enter the path from the home directory of the folder where the Minecraft executable file is located.
-SERVER_PATH = "minecraft/java/paper"
-
-# ホームディレクトリのパスを入力してください。
-# Please enter the path to the home directory.
-HOME_DIRECTORY = "/home/pi"
+SERVER_PATH = "/home/pi/minecraft/java/paper"
 
 # 使用しているMinecraftサーバー実行ファイルの名前を入力してください。
 # Please enter the name of the Minecraft server executable file you are using.
@@ -29,3 +25,15 @@ SCREEN_NAME = "papermc"
 # Please set the maximum and minimum memory you want to use.
 MAX_RAM = "5"
 MIN_RAM = "2"
+
+
+
+# 以下のコードは設定欄ではなく、変更は想定されていません。
+# The following code is not a configuration section and is not intended to be changed.
+
+import os
+
+current_dir = os.getcwd()
+jar_path = os.path.join(current_dir, JAR_FILE)
+if os.path.isfile(jar_path):
+    SERVER_PATH = current_dir

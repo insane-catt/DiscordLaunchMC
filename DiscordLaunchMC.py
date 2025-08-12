@@ -12,7 +12,7 @@ from discord import app_commands
 import subprocess
 import sys
 import asyncio
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 import requests
 import json
@@ -38,7 +38,8 @@ async def daily_task():
     while not client.is_closed():
         print(f"このbotは{client.user.name}です")
         now = datetime.now()
-        next_run = now.replace(day=now.day + 1, hour=0, minute=0, second=0, microsecond=0)
+        # 翌日0時
+        next_run = (now + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
         sleep_time = (next_run - now).total_seconds()
         await asyncio.sleep(sleep_time)
 
@@ -85,10 +86,10 @@ async def setseed(interaction: discord.Interaction, seed: str = None):
         if seed == None:
             replace_text = "level-seed="
 
-        with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'r') as file:
+        with open(f"{SERVER_PATH}/server.properties", 'r') as file:
             lines = file.readlines()
 
-        with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'w') as file:
+        with open(f"{SERVER_PATH}/server.properties", 'w') as file:
             for line in lines:
                 if search_text in line:
                     line = replace_text + '\n'
@@ -121,10 +122,10 @@ async def setmaxplayers(interaction: discord.Interaction, maxplayers: int):
         search_text = "max-players="
         replace_text = f"max-players={maxplayers}"
 
-        with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'r') as file:
+        with open(f"{SERVER_PATH}/server.properties", 'r') as file:
             lines = file.readlines()
 
-        with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'w') as file:
+        with open(f"{SERVER_PATH}/server.properties", 'w') as file:
             for line in lines:
                 if search_text in line:
                     line = replace_text + '\n'
@@ -153,10 +154,10 @@ async def setpvp(interaction: discord.Interaction, on_or_off: str):
     else:
         search_text = "pvp="
         replace_text = f"pvp={on_or_off}"
-        with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'r') as file:
+        with open(f"{SERVER_PATH}/server.properties", 'r') as file:
             lines = file.readlines()
 
-        with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'w') as file:
+        with open(f"{SERVER_PATH}/server.properties", 'w') as file:
             for line in lines:
                 if search_text in line:
                     line = replace_text + '\n'
@@ -191,10 +192,10 @@ async def sethardcore(interaction: discord.Interaction, on_or_off: str):
     else:
         search_text = "hardcore="
         replace_text = f"hardcore={on_or_off}"
-        with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'r') as file:
+        with open(f"{SERVER_PATH}/server.properties", 'r') as file:
             lines = file.readlines()
 
-        with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'w') as file:
+        with open(f"{SERVER_PATH}/server.properties", 'w') as file:
             for line in lines:
                 if search_text in line:
                     line = replace_text + '\n'
@@ -231,10 +232,10 @@ async def setdifficulty(interaction: discord.Interaction, difficulty: str):
     else:
         search_text = "difficulty="
         replace_text = f"difficulty={difficulty}"
-        with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'r') as file:
+        with open(f"{SERVER_PATH}/server.properties", 'r') as file:
             lines = file.readlines()
 
-        with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'w') as file:
+        with open(f"{SERVER_PATH}/server.properties", 'w') as file:
             for line in lines:
                 if search_text in line:
                     line = replace_text + '\n'
@@ -269,10 +270,10 @@ async def changeworld(interaction: discord.Interaction, world: str):
         search_text = "level-name="
         replace_text = f"level-name={world}"
 
-        with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'r') as file:
+        with open(f"{SERVER_PATH}/server.properties", 'r') as file:
             lines = file.readlines()
 
-        with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'w') as file:
+        with open(f"{SERVER_PATH}/server.properties", 'w') as file:
             for line in lines:
                 if search_text in line:
                     line = replace_text + '\n'
@@ -294,7 +295,7 @@ async def setdirectly(interaction: discord.Interaction, property_name: str):
         await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
     else:
         search_text = f"{property_name}="
-        with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'r') as file:
+        with open(f"{SERVER_PATH}/server.properties", 'r') as file:
             lines = file.readlines()
 
         property_found = False
@@ -322,7 +323,7 @@ async def setdirectly(interaction: discord.Interaction, property_name: str):
         
         replace_text = f"{property_name}={new_value}"
 
-        with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'w') as file:
+        with open(f"{SERVER_PATH}/server.properties", 'w') as file:
             for line in lines:
                 if search_text in line:
                     line = replace_text + '\n'
@@ -344,7 +345,7 @@ async def searchproperty(interaction: discord.Interaction, partial_name: str):
     search_text = partial_name
     matching_properties = []
 
-    with open(f"{HOME_DIRECTORY}/{SERVER_PATH}/server.properties", 'r') as file:
+    with open(f"{SERVER_PATH}/server.properties", 'r') as file:
         lines = file.readlines()
 
     for line in lines:
@@ -390,7 +391,7 @@ async def exitbot(interaction: discord.Interaction):
     ]
 )
 async def allowlist(interaction: discord.Interaction, add_or_delete: str, user: str):
-    whitelist_file = f"{HOME_DIRECTORY}/{SERVER_PATH}/whitelist.json"
+    whitelist_file = f"{SERVER_PATH}/whitelist.json"
     def get_uuid(username):
         response = requests.get(f"https://api.mojang.com/users/profiles/minecraft/{username}")
         if response.status_code == 200:
@@ -434,6 +435,35 @@ async def allowlist(interaction: discord.Interaction, add_or_delete: str, user: 
             await interaction.response.send_message(embed=success(tr("許可リストから削除しました"), tr("許可リストから削除されたユーザー：") + user))
         else:
             await interaction.response.send_message(embed=error(tr("無効なオプションです。"), ephemeral=True))
+
+
+# ワールド一覧を表示する
+@tree.command(name="listworlds", description=tr("サーバー内のワールド一覧を表示する"))
+@app_commands.default_permissions(administrator=True)
+async def listworlds(interaction: discord.Interaction):
+    try:
+        dirs = [d for d in os.listdir(SERVER_PATH) if os.path.isdir(os.path.join(SERVER_PATH, d))]
+        world_names = set()
+        for d in dirs:
+            if d.endswith("_nether") or d.endswith("_the_end"):
+                continue
+            # ワールド名のディレクトリが存在し、_netherと_the_endも存在するか確認
+            nether = f"{d}_nether"
+            the_end = f"{d}_the_end"
+            if nether in dirs and the_end in dirs:
+                world_names.add(d)
+        if not world_names:
+            await interaction.response.send_message(error(tr("ワールドが見つかりませんでした"), "ワールドを作成してください。"), ephemeral=True)
+        else:
+            worlds_list = "\n".join(sorted(world_names))
+            embed = discord.Embed(
+                title=tr("サーバー内のワールド一覧"),
+                color=0x00ff00,
+                description=f"```\n{worlds_list}\n```"
+            )
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+    except Exception as e:
+        await interaction.response.send_message(error(tr("ワールド一覧の取得中にエラーが発生しました。"), tr("以下はエラーの内容です：\n") + str(e)), ephemeral=True)
 
 
 #コマンド群ここまで ------------------------------------------------------
