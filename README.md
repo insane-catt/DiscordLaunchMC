@@ -67,6 +67,7 @@ python3 DiscordLaunchMC.py
 - `/setdirectly`：server.propertiesのプロパティ名を入れ、コマンドを送信後、`=`に続く設定したい値を送信すると、server.propertiesのプロパティを直接編集できる。このコマンドは慎重に使わないとサーバーが意図しない動作をする可能性があるので、気を付けて。
 - `/searchproperty`：`/setdirectly`コマンドを使う際などにプロパティ名の一部しか覚えていない場合、このコマンドでプロパティ名の一部を送信するとプロパティを検索することができる。プロパティの現在の設定もここで確認できる。
 - `/allowlist`：サーバーに参加できるユーザーを、`user`引数にいれて追加できる。許可リスト（whitelist.json）を編集する。
+- `/listworlds`：サーバーディレクトリ内に存在するワールド一覧を表示する。
 - `/logout`：Botを停止させる。
 
 その他、ゲームモード（サバイバルとかクリエイティブとか）だったりはサーバー起動中にSRVとかのコンソールとかに入力してください。**気が向いたり要望があれば機能追加します。コメントください。**
@@ -90,6 +91,7 @@ DMまでどうぞ
 このライセンスは、戦争、差別、抑圧に反対する私自身の立場を反映したものです。
 
 ## バージョン履歴
+- v1.2.1：bot名の定期通知のバグ修正とlistworldsコマンドの追加など
 - v1.2.0：**ライセンスの変更**、READMEの更新、`/allowlist`コマンドの追加
 - v1.1.1：毎日botの名前を出力することでコンソールでどのbotが稼働しているかわかるようにした。
 - v1.1：`config.py`から英語を利用可能にした。また、`/setmaxplayers`コマンド、`/setdirectly`コマンド、`/searchproperty`コマンドを実装した。
@@ -164,6 +166,7 @@ python3 DiscordLaunchMC.py
 - `/setdirectly`: You can edit the properties of server.properties directly by entering the property name in server.properties and sending the value you want to set following `=` after sending the command. This command must be used carefully or the server may behave in an unintended way.
 - `/searchproperty`: If you only remember part of a property name, such as when using the `/setdirectly` command, you can search for a property by sending part of the property name with this command.The property's current settings can also be viewed here.
 - `/allowlist`: Adds users who can join the server by specifying the `user` argument. Edits the allowlist (`whitelist.json`).
+- `/listworlds`: Displays a list of worlds present in the server directory. 
 - `/logout`: Stop the bot.
 
 For other things like game mode (survival or creative or something), please enter them on SRV or something console or something while the server is running. **I will add features if I feel like it or if there are requests. Please comment.**
@@ -186,6 +189,7 @@ I believe software should not be used to harm others or support injustice.
 This license reflects my personal stance against war, discrimination, and oppression.
 
 ## Version history
+- v1.2.1: Fixed periodic bot name notification bug and added `listworlds` command, etc.
 - v1.2.0: **License change**, updated README, added `/allowlist` command
 - v1.1.1: Added functionality to output the bot's name daily, making it easier to identify which bot is running in the console.
 - v1.1: Enabled to use English from the `config.py`. Also, implemented `/setmaxplayers`, `/setdirectly` and `/searchproperty` command.
