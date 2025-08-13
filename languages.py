@@ -67,5 +67,11 @@ dictionary = {
         "許可リストから削除しました": "Removed from the allowlist",
         "許可リストから削除されたユーザー：": "User removed from the allowlist: ",
         "無効なオプションです。": "Invalid option.",
+        "サーバー内のワールド一覧を表示する": "Display the list of worlds in the server",
+        "ワールドが見つかりませんでした": "No worlds found.",
+        "ワールドを作成してください。": "Please create a world.",
+        "サーバー内のワールド一覧": "List of worlds in the server",
+        "ワールド一覧の取得中にエラーが発生しました。": "An error occurred while retrieving the list of worlds.",
+        "以下はエラーの内容です：": "The following is the error message:"
     }
 }

@@ -453,7 +453,7 @@ async def listworlds(interaction: discord.Interaction):
             if nether in dirs and the_end in dirs:
                 world_names.add(d)
         if not world_names:
-            await interaction.response.send_message(error(tr("ワールドが見つかりませんでした"), "ワールドを作成してください。"), ephemeral=True)
+            await interaction.response.send_message(error(tr("ワールドが見つかりませんでした"), tr("ワールドを作成してください。")), ephemeral=True)
         else:
             worlds_list = "\n".join(sorted(world_names))
             embed = discord.Embed(
@@ -463,7 +463,7 @@ async def listworlds(interaction: discord.Interaction):
             )
             await interaction.response.send_message(embed=embed, ephemeral=True)
     except Exception as e:
-        await interaction.response.send_message(error(tr("ワールド一覧の取得中にエラーが発生しました。"), tr("以下はエラーの内容です：\n") + str(e)), ephemeral=True)
+        await interaction.response.send_message(error(tr("ワールド一覧の取得中にエラーが発生しました。"), tr("以下はエラーの内容です：") + "\n" + str(e)), ephemeral=True)
 
 
 #コマンド群ここまで ------------------------------------------------------
