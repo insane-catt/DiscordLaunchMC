@@ -91,6 +91,7 @@ DMまでどうぞ
 このライセンスは、戦争、差別、抑圧に反対する私自身の立場を反映したものです。
 
 ## バージョン履歴
+- v1.2.3：翻訳の挙動の改善
 - v1.2.2：翻訳バグ修正
 - v1.2.1：bot名の定期通知のバグ修正とlistworldsコマンドの追加など
 - v1.2.0：**ライセンスの変更**、READMEの更新、`/allowlist`コマンドの追加
@@ -190,6 +191,7 @@ I believe software should not be used to harm others or support injustice.
 This license reflects my personal stance against war, discrimination, and oppression.
 
 ## Version history
+- v1.2.3: Improved translation behavior
 - v1.2.2: Fixed translation bugs
 - v1.2.1: Fixed periodic bot name notification bug and added `listworlds` command, etc.
 - v1.2.0: **License change**, updated README, added `/allowlist` command
