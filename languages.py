@@ -95,6 +95,12 @@ dictionary = {
         "承認フローでエラーが発生しました。": "An error occurred in the approval flow.",
         "更新完了": "Update completed",
         "最新ビルドの paper.jar をダウンロードしました：": "Downloaded the latest build of paper.jar: ",
-        "更新失敗": "Update failed"
+        "更新失敗": "Update failed",
+        "DiscordSRVをModrinthからダウンロードしてpluginsフォルダに配置します": "Download DiscordSRV from Modrinth and place it in the plugins folder",
+        "取得失敗": "Failed to obtain",
+        "ModrinthでDiscordSRVが見つかりませんでした。": "DiscordSRV was not found on Modrinth.",
+        "ダウンロード可能なjarが見つかりませんでした。": "No downloadable jar was found.",
+        "以下のファイルをダウンロードしてpluginsに配置します。よろしいですか？": "The following file will be downloaded and placed in plugins. Is that okay?",
+        "DiscordSRVをpluginsにダウンロードしました。": "Downloaded DiscordSRV to plugins.",
     }
 }

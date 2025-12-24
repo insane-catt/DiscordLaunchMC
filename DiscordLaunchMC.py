@@ -587,7 +587,7 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
             nums = re.findall(r"\d+", v)
             return tuple(int(x) for x in nums)
 
-        # ユーザーがバージョンを指定している場合は、そのまま使う（下の自動選択ロジックはスキップ）
+        # ユーザーがバージョンを指定している場合は、そのまま使う（下の自動選定ロジックはスキップ）
         if not version:
             stable_versions = [v for v in version_ids if not re.search(r'(?i)(?:rc|pre)', v)]
             latest_version = None
@@ -895,12 +895,12 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
             sent = False
             try:
                 if getattr(view, 'interaction_ref', None):
-                    await safe_send(embed=success(tr("更新完了"), tr("最新ビルドの paper.jar をダウンロードしました") + f"\nVersion: {latest_version}\nBuild: {build_id}"), ephemeral=False)
+                    await safe_send(embed=success(tr("更新完了"), tr("最新ビルドの paper.jar をダウンロードしました。") + f"\nVersion: {latest_version}\nBuild: {build_id}"), ephemeral=False)
                     sent = True
             except Exception:
                 sent = False
             if not sent:
-                await safe_send(embed=success(tr("更新完了"), tr("最新ビルドの paper.jar をダウンロードしました") + f"\nVersion: {latest_version}\nBuild: {build_id}"), ephemeral=False)
+                await safe_send(embed=success(tr("更新完了"), tr("最新ビルドの paper.jar をダウンロードしました。") + f"\nVersion: {latest_version}\nBuild: {build_id}"), ephemeral=False)
         except Exception:
             # ダウンロード失敗時はバックアップを復元する
             print("updatepaper: download failed, attempting to restore backup")
@@ -929,6 +929,244 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
         except Exception:
             pass
 
+
+# 新: ModrinthからDiscordSRVをpluginフォルダにダウンロードして更新するコマンド
+@tree.command(name="updatesrv", description=tr("DiscordSRVをModrinthからダウンロードしてpluginsフォルダに配置します"))
+@app_commands.default_permissions(administrator=True)
+async def updatesrv(interaction: discord.Interaction):
+    if is_server_running():
+        await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
+        return
+
+    async def safe_send(*, content: str = None, embed: discord.Embed = None, ephemeral: bool = True):
+        try:
+            if not interaction.response.is_done():
+                await interaction.response.send_message(content=content, embed=embed, ephemeral=ephemeral)
+                return
+        except Exception as e:
+            print("updatesrv: response.send_message failed:", e)
+        try:
+            await interaction.followup.send(content=content, embed=embed, ephemeral=ephemeral)
+            return
+        except Exception as e:
+            print("updatesrv: followup.send failed:", e)
+        try:
+            channel = interaction.channel
+            if channel is not None:
+                await channel.send(content=content, embed=embed)
+                return
+        except Exception as e:
+            print("updatesrv: channel.send failed:", e)
+
+    try:
+        base = "https://api.modrinth.com"
+        plugin_dir = os.path.join(SERVER_PATH, "plugins")
+        os.makedirs(plugin_dir, exist_ok=True)
+
+        # まず既知のスラッグで試す（Modrinth上のプロジェクトスラッグは変わることがあるため複数候補を試す）
+        slugs = ["discordsrv", "DiscordSRV", "discord-srv"]
+        versions = None
+        for s in slugs:
+            try:
+                resp = requests.get(f"{base}/v2/project/{s}/version", timeout=20)
+                if resp.status_code == 200:
+                    versions = resp.json()
+                    break
+            except Exception:
+                continue
+
+        # 見つからなければ検索でフォールバック
+        if not versions:
+            try:
+                resp = requests.get(f"{base}/v2/search", params={"query": "DiscordSRV", "facets": "[]"}, timeout=20)
+                resp.raise_for_status()
+                data = resp.json()
+                hits = data.get("hits", [])
+                if hits:
+                    # hitsの最初のプロジェクトのslugを取得して再試行
+                    proj_slug = hits[0].get("slug") or hits[0].get("project_id")
+                    if proj_slug:
+                        resp2 = requests.get(f"{base}/v2/project/{proj_slug}/version", timeout=20)
+                        if resp2.status_code == 200:
+                            versions = resp2.json()
+            except Exception:
+                versions = None
+
+        if not versions:
+            await safe_send(embed=error(tr("取得失敗"), tr("ModrinthでDiscordSRVが見つかりませんでした。")), ephemeral=True)
+            return
+
+        # 日付で最新のバージョンを選択
+        versions_sorted = sorted(versions, key=lambda v: v.get("date_published", ""), reverse=True)
+        chosen = versions_sorted[0]
+
+        # jarファイルを探す
+        file_obj = None
+        for f in chosen.get("files", []):
+            if f.get("filename", "").endswith(".jar"):
+                file_obj = f
+                break
+
+        if not file_obj:
+            await safe_send(embed=error(tr("取得失敗"), tr("ダウンロード可能なjarが見つかりませんでした。")), ephemeral=True)
+            return
+
+        download_url = file_obj.get("url")
+        filename = file_obj.get("filename", "DiscordSRV.jar")
+        dest_path = os.path.join(plugin_dir, filename)
+        backup_path = dest_path + ".bak"
+
+        # バックアップ
+        if os.path.exists(dest_path):
+            try:
+                if os.path.exists(backup_path):
+                    os.remove(backup_path)
+                os.replace(dest_path, backup_path)
+            except Exception as e:
+                print("updatesrv: backup failed:", e)
+
+        # 確認フロー
+        msg_text = tr("以下のファイルをダウンロードしてpluginsに配置します。よろしいですか？") + "\n"
+        msg_text += f"Version: {chosen.get('id')}\nFilename: {filename}\n"
+
+        class ConfirmView(discord.ui.View):
+            def __init__(self, author):
+                super().__init__(timeout=60)
+                self.value = None
+                self.author = author
+                self.interaction_ref = None
+                self.message = None
+                self.progress_message = None
+
+            @discord.ui.button(label=tr("ダウンロード"), style=discord.ButtonStyle.green)
+            async def confirm(self, inter: discord.Interaction, button: discord.ui.Button):
+                if inter.user.id != self.author.id:
+                    await inter.response.send_message(tr("あなたはこの操作を行えません。"), ephemeral=True)
+                    return
+                await inter.response.defer()
+                self.interaction_ref = inter
+                if self.message is not None:
+                    try:
+                        await self.message.delete()
+                    except Exception:
+                        pass
+                try:
+                    self.progress_message = await inter.followup.send(tr("ダウンロードしています。おまちください..."), ephemeral=False)
+                except Exception:
+                    self.progress_message = None
+                self.value = True
+                self.stop()
+
+            @discord.ui.button(label=tr("キャンセル"), style=discord.ButtonStyle.red)
+            async def cancel(self, inter: discord.Interaction, button: discord.ui.Button):
+                if inter.user.id != self.author.id:
+                    await inter.response.send_message(tr("あなたはこの操作を行えません。"), ephemeral=True)
+                    return
+                await inter.response.defer()
+                self.interaction_ref = inter
+                if self.message is not None:
+                    try:
+                        await self.message.delete()
+                    except Exception:
+                        pass
+                self.value = False
+                self.stop()
+
+        view = ConfirmView(interaction.user)
+        await interaction.response.send_message(msg_text, ephemeral=False, view=view)
+        try:
+            confirm_msg = await interaction.original_response()
+        except Exception:
+            confirm_msg = None
+        view.message = confirm_msg
+
+        await view.wait()
+        if view.value is None:
+            try:
+                if getattr(view, "message", None):
+                    await view.message.delete()
+            except Exception:
+                pass
+            if os.path.exists(backup_path) and not os.path.exists(dest_path):
+                try:
+                    os.replace(backup_path, dest_path)
+                except Exception as e:
+                    print("updatesrv: restore after timeout failed:", e)
+            await safe_send(content=tr("時間切れ：承認が得られませんでした。更新を中止しました。"), ephemeral=True)
+            return
+        if not view.value:
+            if os.path.exists(backup_path) and not os.path.exists(dest_path):
+                try:
+                    os.replace(backup_path, dest_path)
+                except Exception as e:
+                    print("updatesrv: restore after cancel failed:", e)
+            try:
+                if getattr(view, "interaction_ref", None):
+                    await view.interaction_ref.followup.send(tr("更新がユーザーによってキャンセルされました。"), ephemeral=True)
+                else:
+                    await safe_send(content=tr("更新がユーザーによってキャンセルされました。"), ephemeral=True)
+            except Exception:
+                pass
+            return
+
+        # ダウンロード処理
+        tmp_path = dest_path + ".tmp"
+        try:
+            with requests.get(download_url, stream=True, timeout=120) as r:
+                r.raise_for_status()
+                with open(tmp_path, "wb") as f:
+                    for chunk in r.iter_content(chunk_size=8192):
+                        if chunk:
+                            f.write(chunk)
+            os.replace(tmp_path, dest_path)
+            if os.path.exists(backup_path):
+                try:
+                    os.remove(backup_path)
+                except Exception:
+                    pass
+            try:
+                if getattr(view, "progress_message", None):
+                    try:
+                        await view.progress_message.delete()
+                    except Exception:
+                        pass
+            except Exception:
+                pass
+            try:
+                if getattr(view, "interaction_ref", None):
+                    await safe_send(embed=success(tr("更新完了"), tr("DiscordSRVをpluginsにダウンロードしました。") + f"\nVersion: {chosen.get('id')}\nFilename: {filename}"), ephemeral=False)
+                else:
+                    await safe_send(embed=success(tr("更新完了"), tr("DiscordSRVをpluginsにダウンロードしました。") + f"\nVersion: {chosen.get('id')}\nFilename: {filename}"), ephemeral=False)
+            except Exception:
+                pass
+        except Exception as e:
+            print("updatesrv: download failed:", e)
+            if os.path.exists(tmp_path):
+                try:
+                    os.remove(tmp_path)
+                except Exception:
+                    pass
+            if os.path.exists(backup_path) and not os.path.exists(dest_path):
+                try:
+                    os.replace(backup_path, dest_path)
+                except Exception as e2:
+                    print("updatesrv: restore failed after download error:", e2)
+            tb = traceback.format_exc()
+            await safe_send(embed=error(tr("更新失敗"), str(e)), ephemeral=True)
+            try:
+                await safe_send(content="```\n" + tb + "\n```", ephemeral=True)
+            except Exception:
+                pass
+
+    except Exception as e:
+        tb = traceback.format_exc()
+        print("updatesrv error:", e)
+        print(tb)
+        await safe_send(embed=error(tr("更新失敗"), str(e)), ephemeral=True)
+        try:
+            await safe_send(content="```\n" + tb + "\n```", ephemeral=True)
+        except Exception:
+            pass
 
 #コマンド群ここまで ------------------------------------------------------
 
