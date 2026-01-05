@@ -1,3 +1,5 @@
+最新バージョン (latest version): v1.3
+
 ### 重要
 ライセンスを変更しました。詳しくは[こちら](#license--ライセンスが変更されました)と`LICENSE`ファイルをご覧ください。
 
@@ -80,8 +82,12 @@ python3 DiscordLaunchMC.py
 ## 使えるコマンド一覧
 ### いつでも使えるコマンド
 - `/hello`：こんにちは、【コマンドを実行したユーザー】さん！と返してくれる。誰でも使えるコマンド。botの動作確認などに使用できる。
+<hr>
+
 ### サーバー停止中にDiscordサーバー管理者のみ使えるコマンド
 - **`/start`**：サーバーを起動するコマンド。
+<hr>
+
 - `/changeworld`：遊ぶワールドを変更する。引数として、ワールド名を入力する必要がある。存在しないワールド名を入力することで、新しいワールドが生成される。
 - `/setseed`：シード値を指定する。引数を指定しなかった場合、ランダムなシード値にする。
 - `/setdifficulty`：ゲーム難易度を引数で変更する。
@@ -92,6 +98,13 @@ python3 DiscordLaunchMC.py
 - `/searchproperty`：`/setdirectly`コマンドを使う際などにプロパティ名の一部しか覚えていない場合、このコマンドでプロパティ名の一部を送信するとプロパティを検索することができる。プロパティの現在の設定もここで確認できる。
 - `/allowlist`：サーバーに参加できるユーザーを、`user`引数にいれて追加できる。許可リスト（whitelist.json）を編集する。
 - `/listworlds`：サーバーディレクトリ内に存在するワールド一覧を表示する。
+<hr>
+
+- `/updatepaper`：PaperMCの最新ビルドを公式アプリを利用しダウンロードする。Minecraftのバージョンを`version`引数に入れて旧バージョンをダウンロードできる。入れなければAPIで入手できる最新バージョンがダウンロードされる。
+- `/updategeyser`：GeyserMCとそれに付属するfloodgateの最新バージョンを公式APIを利用しpluginsディレクトリにダウンロードする。
+- `/updatesrv`：DiscordSRVの最新バージョンをModrinthのAPIを利用しpluginsディレクトリにダウンロードする。
+<hr>
+
 - `/logout`：Botを停止させる。
 
 その他、ゲームモード（サバイバルとかクリエイティブとか）だったりはサーバー起動中にSRVとかのコンソールとかに入力してください。**気が向いたり要望があれば機能追加します。コメントください。**
@@ -115,6 +128,7 @@ DMまでどうぞ
 このライセンスは、戦争、差別、抑圧に反対する私自身の立場を反映したものです。
 
 ## バージョン履歴
+- v1.3：各種アップデートコマンドを追加
 - v1.2.3：翻訳の挙動の改善
 - v1.2.2：翻訳バグ修正
 - v1.2.1：bot名の定期通知のバグ修正とlistworldsコマンドの追加など
@@ -203,9 +217,12 @@ python3 DiscordLaunchMC.py
 ## List of available commands
 ### Commands available to everyone
 - `/hello`: Replies with "Hello, [user who executed the command]!" Useful for checking if the bot is working.
+<hr>
 
 ### Commands available only to Discord server administrators when the server is stopped
 - **`/start`**: Starts the server.
+<hr>
+
 - `/changeworld`: Change the world to play in. Requires the world name as an argument. Entering a non-existent world name will generate a new world.
 - `/setseed`: Specify a seed value. If no argument is specified, a random seed will be used.
 - `/setdifficulty`: Change the game difficulty.
@@ -216,6 +233,13 @@ python3 DiscordLaunchMC.py
 - `/searchproperty`: Search for a property in server.properties by part of its name. Also shows the current value.
 - `/allowlist`: Add users to the allowlist (`whitelist.json`) by specifying the `user` argument.
 - `/listworlds`: Display a list of worlds in the server directory.
+<hr>
+
+- `/updatepaper`: Downloads the latest build of PaperMC using the official application. You can download an older version by including the Minecraft version in the `version` argument. If not specified, the latest version available through the API will be downloaded.
+- `/updategeyser`: Downloads the latest versions of GeyserMC and its accompanying floodgate to the plugins directory using the official API.
+- `/updatesrv`: Downloads the latest version of DiscordSRV to the plugins directory using the Modrinth API.
+<hr>
+
 - `/logout`: Stop the bot.
 
 For other settings like game mode (survival, creative, etc.), please use the server console (e.g., via DiscordSRV) while the server is running.  
@@ -239,6 +263,7 @@ I believe software should not be used to harm others or support injustice.
 This license reflects my personal stance against war, discrimination, and oppression.
 
 ## Version history
+- v1.3: Added various update commands
 - v1.2.3: Improved translation behavior
 - v1.2.2: Fixed translation bugs
 - v1.2.1: Fixed periodic bot name notification bug and added `listworlds` command, etc.

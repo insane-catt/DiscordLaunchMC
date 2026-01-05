@@ -1,3 +1,4 @@
+# v1.3
 dictionary = {
     "en": {
         "こんにちは、": "Hello, ",
@@ -102,5 +103,11 @@ dictionary = {
         "ダウンロード可能なjarが見つかりませんでした。": "No downloadable jar was found.",
         "以下のファイルをダウンロードしてpluginsに配置します。よろしいですか？": "The following file will be downloaded and placed in plugins. Is that okay?",
         "DiscordSRVをpluginsにダウンロードしました。": "Downloaded DiscordSRV to plugins.",
+        "GeyserMCとFloodgateの最新ビルドをダウンロードして更新する": "Download the latest build of GeyserMC and Floodgate and update it",
+        "取得失敗": "Failed to obtain",
+        "GeyserMCもFloodgateも情報を取得できませんでした。": "Could not retrieve information for GeyserMC and Floodgate.",
+        "以下のファイルを更新します。よろしいですか？": "The following file will be updated. Is that okay?",
+        "ダウンロード失敗": "Download failed",
+        "エラー": "Error"
     }
 }

@@ -1,3 +1,4 @@
+# v1.3
 # 重要：ライセンスを変更しました。詳しくはREADMEとLICENSEを参照してください。
 # Important note: The license has been changed. Please refer to README and LICENSE for details.
 
@@ -895,12 +896,12 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
             sent = False
             try:
                 if getattr(view, 'interaction_ref', None):
-                    await safe_send(embed=success(tr("更新完了"), tr("最新ビルドの paper.jar をダウンロードしました。") + f"\nVersion: {latest_version}\nBuild: {build_id}"), ephemeral=False)
+                    await safe_send(embed=success(tr("更新完了"), tr("最新ビルドの paper.jar をダウンロードしました：") + f"\nVersion: {latest_version}\nBuild: {build_id}"), ephemeral=False)
                     sent = True
             except Exception:
                 sent = False
             if not sent:
-                await safe_send(embed=success(tr("更新完了"), tr("最新ビルドの paper.jar をダウンロードしました。") + f"\nVersion: {latest_version}\nBuild: {build_id}"), ephemeral=False)
+                await safe_send(embed=success(tr("更新完了"), tr("最新ビルドの paper.jar をダウンロードしました：") + f"\nVersion: {latest_version}\nBuild: {build_id}"), ephemeral=False)
         except Exception:
             # ダウンロード失敗時はバックアップを復元する
             print("updatepaper: download failed, attempting to restore backup")
@@ -1167,6 +1168,215 @@ async def updatesrv(interaction: discord.Interaction):
             await safe_send(content="```\n" + tb + "\n```", ephemeral=True)
         except Exception:
             pass
+
+
+# GeyserMCとFloodgateの更新コマンド
+@tree.command(name="updategeyser", description=tr("GeyserMCとFloodgateの最新ビルドをダウンロードして更新する"))
+@app_commands.default_permissions(administrator=True)
+async def updategeyser(interaction: discord.Interaction):
+    if is_server_running():
+        await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
+        return
+
+    async def safe_send(*, content: str = None, embed: discord.Embed = None, ephemeral: bool = True):
+        try:
+            if not interaction.response.is_done():
+                await interaction.response.send_message(content=content, embed=embed, ephemeral=ephemeral)
+                return
+        except Exception as e:
+            print("updategeyser: response.send_message failed:", e)
+        try:
+            await interaction.followup.send(content=content, embed=embed, ephemeral=ephemeral)
+            return
+        except Exception as e:
+            print("updategeyser: followup.send failed:", e)
+        try:
+            channel = interaction.channel
+            if channel is not None:
+                await channel.send(content=content, embed=embed)
+                return
+        except Exception as e:
+            print("updategeyser: channel.send failed:", e)
+
+    try:
+        base_url = "https://download.geysermc.org/v2/projects"
+        plugin_dir = os.path.join(SERVER_PATH, "plugins")
+        os.makedirs(plugin_dir, exist_ok=True)
+
+        geyser_info = None
+        floodgate_info = None
+        
+        # Geyser情報取得
+        try:
+            resp = requests.get(f"{base_url}/geyser/versions/latest/builds/latest", timeout=20)
+            if resp.status_code == 200:
+                geyser_info = resp.json()
+        except Exception as e:
+            print("updategeyser: geyser fetch error:", e)
+
+        # Floodgate情報取得
+        try:
+            resp = requests.get(f"{base_url}/floodgate/versions/latest/builds/latest", timeout=20)
+            if resp.status_code == 200:
+                floodgate_info = resp.json()
+        except Exception as e:
+            print("updategeyser: floodgate fetch error:", e)
+
+        if not geyser_info and not floodgate_info:
+            await safe_send(embed=error(tr("取得失敗"), tr("GeyserMCもFloodgateも情報を取得できませんでした。")), ephemeral=True)
+            return
+
+        # ダウンロード対象の整理
+        targets = []
+        msg_lines = []
+
+        if geyser_info:
+            ver = geyser_info.get("version")
+            build = geyser_info.get("build")
+            target_name = "Geyser-Spigot.jar"
+            url = f"{base_url}/geyser/versions/{ver}/builds/{build}/downloads/spigot"
+            targets.append({"name": "Geyser", "file": target_name, "url": url, "path": os.path.join(plugin_dir, target_name), "ver_info": f"{ver} (Build {build})"})
+            msg_lines.append(f"Geyser: {ver} (Build {build})")
+        
+        if floodgate_info:
+            ver = floodgate_info.get("version")
+            build = floodgate_info.get("build")
+            target_name = "floodgate-spigot.jar"
+            url = f"{base_url}/floodgate/versions/{ver}/builds/{build}/downloads/spigot"
+            targets.append({"name": "Floodgate", "file": target_name, "url": url, "path": os.path.join(plugin_dir, target_name), "ver_info": f"{ver} (Build {build})"})
+            msg_lines.append(f"Floodgate: {ver} (Build {build})")
+
+        msg_text = tr("以下のファイルを更新します。よろしいですか？") + "\n" + "\n".join(msg_lines)
+
+        class ConfirmView(discord.ui.View):
+            def __init__(self, author):
+                super().__init__(timeout=60)
+                self.value = None
+                self.author = author
+                self.interaction_ref = None
+                self.message = None
+                self.progress_message = None
+
+            @discord.ui.button(label=tr("ダウンロード"), style=discord.ButtonStyle.green)
+            async def confirm(self, inter: discord.Interaction, button: discord.ui.Button):
+                if inter.user.id != self.author.id:
+                    await inter.response.send_message(tr("あなたはこの操作を行えません。"), ephemeral=True)
+                    return
+                await inter.response.defer()
+                self.interaction_ref = inter
+                if self.message:
+                    try: await self.message.delete()
+                    except: pass
+                try:
+                    self.progress_message = await inter.followup.send(tr("ダウンロードしています。おまちください..."), ephemeral=False)
+                except:
+                    self.progress_message = None
+                self.value = True
+                self.stop()
+
+            @discord.ui.button(label=tr("キャンセル"), style=discord.ButtonStyle.red)
+            async def cancel(self, inter: discord.Interaction, button: discord.ui.Button):
+                if inter.user.id != self.author.id:
+                    await inter.response.send_message(tr("あなたはこの操作を行えません。"), ephemeral=True)
+                    return
+                await inter.response.defer()
+                self.interaction_ref = inter
+                if self.message:
+                    try: await self.message.delete()
+                    except: pass
+                self.value = False
+                self.stop()
+
+        view = ConfirmView(interaction.user)
+        await interaction.response.send_message(msg_text, ephemeral=False, view=view)
+        try:
+            view.message = await interaction.original_response()
+        except:
+            view.message = None
+        
+        await view.wait()
+        
+        if view.value is None:
+            await safe_send(content=tr("時間切れ：承認が得られませんでした。更新を中止しました。"), ephemeral=True)
+            try:
+                if view.message: await view.message.delete()
+            except: pass
+            return
+        
+        if not view.value:
+            try:
+                if view.interaction_ref:
+                    await view.interaction_ref.followup.send(tr("更新がユーザーによってキャンセルされました。"), ephemeral=True)
+                else:
+                    await safe_send(content=tr("更新がユーザーによってキャンセルされました。"), ephemeral=True)
+            except: pass
+            return
+
+        # ダウンロード実行
+        results_msg = []
+        for target in targets:
+            dest = target["path"]
+            backup = dest + ".bak"
+            tmp = dest + ".tmp"
+            
+            # バックアップ
+            backed_up = False
+            if os.path.exists(dest):
+                try:
+                    if os.path.exists(backup): os.remove(backup)
+                    os.replace(dest, backup)
+                    backed_up = True
+                except Exception as e:
+                    print(f"updategeyser: backup failed for {target['name']}: {e}")
+            
+            # ダウンロード
+            success_dl = False
+            try:
+                with requests.get(target["url"], stream=True, timeout=120) as r:
+                    r.raise_for_status()
+                    with open(tmp, 'wb') as f:
+                        for chunk in r.iter_content(chunk_size=8192):
+                            f.write(chunk)
+                
+                if os.path.exists(dest):
+                    os.remove(dest)
+                
+                os.replace(tmp, dest)
+                success_dl = True
+                
+                # バックアップ削除
+                if backed_up and os.path.exists(backup):
+                    try: os.remove(backup)
+                    except: pass
+                
+                results_msg.append(f"✅ {target['name']}: {target['ver_info']}")
+
+            except Exception as e:
+                print(f"updategeyser: download failed for {target['name']}: {e}")
+                results_msg.append(f"❌ {target['name']}: {tr('ダウンロード失敗')}")
+                # 復元
+                if os.path.exists(tmp):
+                    try: os.remove(tmp)
+                    except: pass
+                if backed_up and os.path.exists(backup):
+                    try:
+                        if os.path.exists(dest): os.remove(dest)
+                        os.replace(backup, dest)
+                    except: pass
+
+        try:
+            if view.progress_message:
+                await view.progress_message.delete()
+        except: pass
+
+        await safe_send(embed=success(tr("更新完了"), "\n".join(results_msg)), ephemeral=False)
+
+    except Exception as e:
+        tb = traceback.format_exc()
+        print("updategeyser error:", e)
+        print(tb)
+        await safe_send(embed=error(tr("エラー"), str(e)), ephemeral=True)
+
 
 #コマンド群ここまで ------------------------------------------------------
 
