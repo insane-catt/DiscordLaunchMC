@@ -1,4 +1,4 @@
-# v1.3
+# v1.3.1
 # 重要：ライセンスを変更しました。詳しくはREADMEとLICENSEを参照してください。
 # Important note: The license has been changed. Please refer to README and LICENSE for details.
 
@@ -62,28 +62,28 @@ async def hello(interaction: discord.Interaction):
 
 
 #サーバー起動
-@tree.command(name="start", description=tr("サーバーを起動する"))
+@tree.command(name="start", description=tr("▶️サーバーを起動する"))
 @app_commands.default_permissions(administrator=True)
 async def start(interaction: discord.Interaction):
     if is_server_running():
         embed = discord.Embed(
-            description=tr("サーバーは既に起動しています")
+            description=tr("✅サーバーは既に起動しています")
             )
         await interaction.response.send_message(embed=embed, ephemeral=True)
     else:
         start_server()
         embed = discord.Embed(
-            title=tr("サーバーを起動します"),
+            title=tr("▶️サーバーを起動します"),
             color=0x00ff00,
-            description=tr("しばらくおまちください。")
+            description=tr("⏳しばらくおまちください。")
             )
         await interaction.response.send_message(embed=embed)
 
 
 #シード値設定
-@tree.command(name="setseed", description=tr("ワールドのシード値を設定する。seed引数を設定せずに実行できます。"))
+@tree.command(name="setseed", description=tr("🔢️ワールドのシード値を設定する。seed引数を設定せずに実行できます。"))
 @app_commands.default_permissions(administrator=True)
-@app_commands.describe(seed=tr('シード値'))
+@app_commands.describe(seed=tr('🔢️シード値'))
 async def setseed(interaction: discord.Interaction, seed: str = None):
     if is_server_running():
         await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
@@ -104,24 +104,24 @@ async def setseed(interaction: discord.Interaction, seed: str = None):
 
         if seed == None:
             embed = discord.Embed(
-                title=tr("シード値を変更しました"),
+                title=tr("✅シード値を変更しました"),
                 color=0x00ff00,
-                description=tr("シード値が設定されていないので、世界はランダムに生成されます。")
+                description=tr("🌀シード値が設定されていないので、世界はランダムに生成されます。")
                 )
             await interaction.response.send_message(embed=embed)
         else:
             embed = discord.Embed(
-                title=tr("シード値を変更しました"),
+                title=tr("✅シード値を変更しました"),
                 color=0x00ff00,
-                description=tr("新しいシード値: ") + f"`{seed}`"
+                description=tr("🔢️新しいシード値: ") + f"`{seed}`"
                 )
             await interaction.response.send_message(embed=embed)
 
 
 #最大プレイヤー数
-@tree.command(name="setmaxplayers", description=tr("最大プレイヤー数を変更する"))
+@tree.command(name="setmaxplayers", description=tr("🧑‍🧑‍🧒‍🧒最大プレイヤー数を変更する"))
 @app_commands.default_permissions(administrator=True)
-@app_commands.describe(maxplayers=tr('最大プレイヤー数'))
+@app_commands.describe(maxplayers=tr('🧑‍🧑‍🧒‍🧒最大プレイヤー数'))
 async def setmaxplayers(interaction: discord.Interaction, maxplayers: int):
     if is_server_running():
         await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
@@ -138,21 +138,21 @@ async def setmaxplayers(interaction: discord.Interaction, maxplayers: int):
                     line = replace_text + '\n'
                 file.write(line)
         embed = discord.Embed(
-            title=tr("最大プレイヤー数を変更しました"),
+            title=tr("✅最大プレイヤー数を変更しました"),
             color=0x00ff00,
-            description=tr("新しい最大プレイヤー数: ") + f"`{maxplayers}`"
+            description=tr("🧑‍🧑‍🧒‍🧒新しい最大プレイヤー数: ") + f"`{maxplayers}`"
             )
         await interaction.response.send_message(embed=embed)
 
 
 #PVP設定
-@tree.command(name="setpvp", description=tr("PVPの設定を変更する"))
+@tree.command(name="setpvp", description=tr("⚔️PVPの設定を変更する"))
 @app_commands.default_permissions(administrator=True)
-@app_commands.describe(on_or_off=tr("オンかオフか"))
+@app_commands.describe(on_or_off=tr("🔌オンかオフか"))
 @app_commands.choices(
     on_or_off=[
-        discord.app_commands.Choice(name=tr("オン"),value="true"),
-        discord.app_commands.Choice(name=tr("オフ"),value="false")
+        discord.app_commands.Choice(name=tr("🔆オン"),value="true"),
+        discord.app_commands.Choice(name=tr("💤オフ"),value="false")
     ]
 )
 async def setpvp(interaction: discord.Interaction, on_or_off: str):
@@ -171,26 +171,26 @@ async def setpvp(interaction: discord.Interaction, on_or_off: str):
                 file.write(line)
 
         if on_or_off == "true":
-            on_or_off = tr("オン")
+            on_or_off = tr("🔆オン")
         else:
-            on_or_off = tr("オフ")
+            on_or_off = tr("💤オフ")
 
         embed = discord.Embed(
-            title=tr("PVPの設定を変更しました"),
+            title=tr("✅PVPの設定を変更しました"),
             color=0x00ff00,
-            description=tr("新しいPVPの設定: ") + f"**{on_or_off}**"
+            description=tr("⚔️新しいPVPの設定: ") + f"**{on_or_off}**"
             )
         await interaction.response.send_message(embed=embed)
 
 
 #hardcore設定
-@tree.command(name="sethardcore", description=tr("ハードコアの設定を変更する"))
+@tree.command(name="sethardcore", description=tr("❤️‍🔥ハードコアの設定を変更する"))
 @app_commands.default_permissions(administrator=True)
-@app_commands.describe(on_or_off=tr("オンかオフか"))
+@app_commands.describe(on_or_off=tr("🔌オンかオフか"))
 @app_commands.choices(
     on_or_off=[
-        discord.app_commands.Choice(name=tr("オン"),value="true"),
-        discord.app_commands.Choice(name=tr("オフ"),value="false")
+        discord.app_commands.Choice(name=tr("🔆オン"),value="true"),
+        discord.app_commands.Choice(name=tr("💤オフ"),value="false")
     ]
 )
 async def sethardcore(interaction: discord.Interaction, on_or_off: str):
@@ -209,28 +209,28 @@ async def sethardcore(interaction: discord.Interaction, on_or_off: str):
                 file.write(line)
 
         if on_or_off == "true":
-            on_or_off = tr("オン")
+            on_or_off = tr("🔆オン")
         else:
-            on_or_off = tr("オフ")
+            on_or_off = tr("💤オフ")
 
         embed = discord.Embed(
-            title=tr("ハードコアの設定を変更しました"),
+            title=tr("✅ハードコアの設定を変更しました"),
             color=0x00ff00,
-            description=tr("新しいハードコアの設定: ") + f"**{on_or_off}**"
+            description=tr("❤️‍🔥新しいハードコアの設定: ") + f"**{on_or_off}**"
             )
         await interaction.response.send_message(embed=embed)
 
 
 #ゲーム難易度設定
-@tree.command(name="setdifficulty", description=tr("ゲーム難易度を変更する"))
+@tree.command(name="setdifficulty", description=tr("🎮ゲーム難易度を変更する"))
 @app_commands.default_permissions(administrator=True)
-@app_commands.describe(difficulty=tr("ゲーム難易度"))
+@app_commands.describe(difficulty=tr("🎮ゲーム難易度"))
 @app_commands.choices(
     difficulty=[
-        discord.app_commands.Choice(name=tr("ピースフル"),value="peaceful"),
-        discord.app_commands.Choice(name=tr("イージー"),value="easy"),
-        discord.app_commands.Choice(name=tr("ノーマル"),value="normal"),
-        discord.app_commands.Choice(name=tr("ハード"),value="hard")
+        discord.app_commands.Choice(name=tr("🌱ピースフル"),value="peaceful"),
+        discord.app_commands.Choice(name=tr("☘️イージー"),value="easy"),
+        discord.app_commands.Choice(name=tr("🌿ノーマル"),value="normal"),
+        discord.app_commands.Choice(name=tr("🌴ハード"),value="hard")
     ]
 )
 async def setdifficulty(interaction: discord.Interaction, difficulty: str):
@@ -248,17 +248,17 @@ async def setdifficulty(interaction: discord.Interaction, difficulty: str):
                     line = replace_text + '\n'
                 file.write(line)
         if difficulty == "peaceful":
-            difficulty = tr("ピースフル")
+            difficulty = tr("🌱ピースフル")
         elif difficulty == "easy":
-            difficulty = tr("イージー")
+            difficulty = tr("☘️イージー")
         elif difficulty == "normal":
-            difficulty = tr("ノーマル")
+            difficulty = tr("🌿ノーマル")
         else:
-            difficulty = tr("ハード")
+            difficulty = tr("🌴ハード")
         embed = discord.Embed(
-            title=tr("ゲーム難易度を変更しました"),
+            title=tr("🎮ゲーム難易度を変更しました"),
             color=0x00ff00,
-            description=tr("新しいゲーム難易度: ") + f"**{difficulty}**"
+            description=tr("🎮新しいゲーム難易度: ") + f"**{difficulty}**"
             )
         await interaction.response.send_message(embed=embed)
         
@@ -266,10 +266,10 @@ async def setdifficulty(interaction: discord.Interaction, difficulty: str):
 #ワールド名指定
 @tree.command(
         name="changeworld", 
-        description=tr("遊ぶワールドを変更する。存在しないワールド名を入力することで、新しいワールドが生成される。")
+        description=tr("🏞️遊ぶワールドを変更する。存在しないワールド名を入力することで、新しいワールドが生成される。")
         )
 @app_commands.default_permissions(administrator=True)
-@app_commands.describe(world=tr('ワールド名'))
+@app_commands.describe(world=tr('🏞️ワールド名'))
 async def changeworld(interaction: discord.Interaction, world: str):
     if is_server_running():
         await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
@@ -286,17 +286,17 @@ async def changeworld(interaction: discord.Interaction, world: str):
                     line = replace_text + '\n'
                 file.write(line)
         embed = discord.Embed(
-            title=tr("遊ぶワールドを変更しました"),
+            title=tr("✅遊ぶワールドを変更しました"),
             color=0x00ff00,
-            description=tr("次のワールドが読み込まれます: ") + f"`{world}`"
+            description=tr("🏞️次のワールドが読み込まれます: ") + f"`{world}`"
             )
         await interaction.response.send_message(embed=embed)
 
 
 #server.propertiesの直接編集コマンド
-@tree.command(name="setdirectly", description=tr("server.propertiesを直接編集する。※間違えないように慎重に使ってください！"))
+@tree.command(name="setdirectly", description=tr("🔧server.propertiesを直接編集する。※間違えないように慎重に使ってください！"))
 @app_commands.default_permissions(administrator=True)
-@app_commands.describe(property_name=tr("プロパティ名"))
+@app_commands.describe(property_name=tr("⚙️プロパティ名"))
 async def setdirectly(interaction: discord.Interaction, property_name: str):
     if is_server_running():
         await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
@@ -312,10 +312,10 @@ async def setdirectly(interaction: discord.Interaction, property_name: str):
                 break
 
         if not property_found:
-            await interaction.response.send_message((tr("次に一致する設定が見つかりませんでした:\n") + f"`{property_name}`"), ephemeral=True)
+            await interaction.response.send_message((tr("❌次に一致する設定が見つかりませんでした:\n") + f"`{property_name}`"), ephemeral=True)
             return
 
-        await interaction.response.send_message((tr("一致する設定が見つかりました:\n") + f"`{property_name}`\n" + tr("`=`に続く設定したい値を入力してください。")), ephemeral=True)
+        await interaction.response.send_message((tr("⚙️一致する設定が見つかりました:\n") + f"`{property_name}`\n" + tr("`=`に続く設定したい値を入力してください。")), ephemeral=True)
 
         def check(m):
             return m.author == interaction.user and m.channel == interaction.channel
@@ -323,7 +323,7 @@ async def setdirectly(interaction: discord.Interaction, property_name: str):
         try:
             msg = await client.wait_for('message', check=check, timeout=60.0)
         except asyncio.TimeoutError:
-            await interaction.followup.send(tr("時間切れです。もう一度やり直してください。"), ephemeral=True)
+            await interaction.followup.send(tr("⌛️時間切れです。もう一度やり直してください。"), ephemeral=True)
             return
         
         new_value = msg.content.strip()
@@ -337,17 +337,17 @@ async def setdirectly(interaction: discord.Interaction, property_name: str):
                 file.write(line)
 
         embed = discord.Embed(
-            title=tr("設定を変更しました"),
+            title=tr("✅設定を変更しました"),
             color=0x00ff00,
-            description=tr("設定を以下のように編集しました。\n") + f"```\n{replace_text}\n```"
+            description=tr("🔧設定を以下のように編集しました。\n") + f"```\n{replace_text}\n```"
         )
         await interaction.followup.send(embed=embed)
 
 
 #server.properties内のプロパティの検索コマンド
-@tree.command(name="searchproperty", description=tr("プロパティ名の一部を指定して一致するプロパティを検索する"))
+@tree.command(name="searchproperty", description=tr("⚙️プロパティ名の一部を指定して一致するプロパティを検索する"))
 @app_commands.default_permissions(administrator=True)
-@app_commands.describe(partial_name=tr("プロパティ名の一部"))
+@app_commands.describe(partial_name=tr("⚙️プロパティ名の一部"))
 async def searchproperty(interaction: discord.Interaction, partial_name: str):
     search_text = partial_name
     matching_properties = []
@@ -360,27 +360,27 @@ async def searchproperty(interaction: discord.Interaction, partial_name: str):
             matching_properties.append(line.strip())
 
     if not matching_properties:
-        await interaction.response.send_message(tr(f"次に一致する設定が見つかりませんでした:\n") + f"`{partial_name}`", ephemeral=True)
+        await interaction.response.send_message(tr(f"❌次に一致する設定が見つかりませんでした:\n") + f"`{partial_name}`", ephemeral=True)
     else:
         properties_list = "\n".join(matching_properties)
         embed = discord.Embed(
-            title=tr("一致するプロパティが見つかりました"),
+            title=tr("⚙️一致するプロパティが見つかりました"),
             color=0x00ff00,
-            description=tr("次のプロパティが見つかりました:\n") + f"```\n{properties_list}\n```"
+            description=tr("⚙️次のプロパティが見つかりました:\n") + f"```\n{properties_list}\n```"
         )
         await interaction.response.send_message(embed=embed, ephemeral=True)
 
 
 #botの停止
-@tree.command(name="logout", description=tr("このbotをログアウトさせる"))
+@tree.command(name="logout", description=tr("👋このbotをログアウトさせる"))
 @app_commands.default_permissions(administrator=True)
 async def exitbot(interaction: discord.Interaction):
     if is_server_running():
         await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
     else:
         embed = discord.Embed(
-            title=tr("ログアウトします"),
-            description=tr("botは停止されます。")
+            title=tr("👋ログアウトします"),
+            description=tr("⏹️botは停止されます。")
             )
         await interaction.response.send_message(embed=embed)
         print("The logout command has been executed.")
@@ -388,13 +388,13 @@ async def exitbot(interaction: discord.Interaction):
 
 
 #allowlistの設定
-@tree.command(name="allowlist", description=tr("サーバーに参加できるユーザーの許可リストを設定する"))
+@tree.command(name="allowlist", description=tr("✅🚷サーバーに参加できるユーザーの許可リストを設定する"))
 @app_commands.default_permissions(administrator=True)
-@app_commands.describe(add_or_delete=tr("追加または削除"), user=tr("許可するユーザー"))
+@app_commands.describe(add_or_delete=tr("📥📤追加または削除"), user=tr("👤ユーザー名"))
 @app_commands.choices(
     add_or_delete=[
-        discord.app_commands.Choice(name=tr("追加"), value="add"),
-        discord.app_commands.Choice(name=tr("削除"), value="remove")
+        discord.app_commands.Choice(name=tr("✅追加"), value="add"),
+        discord.app_commands.Choice(name=tr("🚷削除"), value="remove")
     ]
 )
 async def allowlist(interaction: discord.Interaction, add_or_delete: str, user: str):
@@ -421,31 +421,31 @@ async def allowlist(interaction: discord.Interaction, add_or_delete: str, user: 
         if add_or_delete == "add":
             uuid = get_uuid(user)
             if not uuid:
-                await interaction.response.send_message(embed=error(tr("UUIDの取得に失敗しました"), tr("ユーザー名：") + user), ephemeral=True)
+                await interaction.response.send_message(embed=error(tr("❌UUIDの取得に失敗しました"), tr("👤ユーザー名：") + user), ephemeral=True)
                 return
             # ユーザーが既に許可リストに存在するか確認
             if any(entry['uuid'] == uuid for entry in whitelist):
-                await interaction.response.send_message(embed=error(tr("このユーザーは既に許可リストに存在します"), tr("ユーザー名：") + user), ephemeral=True)
+                await interaction.response.send_message(embed=error(tr("✅このユーザーは既に許可リストに存在します"), tr("👤ユーザー名：") + user), ephemeral=True)
                 return
             whitelist.append({"uuid": uuid, "name": user})
             # allowlist.jsonに書き込む
             with open(whitelist_file, 'w') as f:
                 json.dump(whitelist, f, indent=2)
-            await interaction.response.send_message(embed=success(tr("許可リストに追加しました"), tr("許可リストに追加されたユーザー：") + user))
+            await interaction.response.send_message(embed=success(tr("✅許可リストに追加しました"), tr("✅許可リストに追加されたユーザー：") + user))
         elif add_or_delete == "remove":
             new_whitelist = [entry for entry in whitelist if entry['name'] != user]
             if len(new_whitelist) == len(whitelist):
-                await interaction.response.send_message(embed=error(tr("このユーザーは許可リストに存在しません"), tr("ユーザー名：") + user), ephemeral=True)
+                await interaction.response.send_message(embed=error(tr("🚷このユーザーは許可リストに存在しません"), tr("👤ユーザー名：") + user), ephemeral=True)
                 return
             with open(whitelist_file, 'w') as f:
                 json.dump(new_whitelist, f, indent=2)
-            await interaction.response.send_message(embed=success(tr("許可リストから削除しました"), tr("許可リストから削除されたユーザー：") + user))
+            await interaction.response.send_message(embed=success(tr("🚷許可リストから削除しました"), tr("🚷許可リストから削除されたユーザー：") + user))
         else:
-            await interaction.response.send_message(embed=error(tr("無効なオプションです。"), ephemeral=True))
+            await interaction.response.send_message(embed=error(tr("❌無効なオプションです。"), ephemeral=True))
 
 
 # ワールド一覧を表示する
-@tree.command(name="listworlds", description=tr("サーバー内のワールド一覧を表示する"))
+@tree.command(name="listworlds", description=tr("🏞️サーバー内のワールド一覧を表示する"))
 @app_commands.default_permissions(administrator=True)
 async def listworlds(interaction: discord.Interaction):
     try:
@@ -460,23 +460,23 @@ async def listworlds(interaction: discord.Interaction):
             if nether in dirs and the_end in dirs:
                 world_names.add(d)
         if not world_names:
-            await interaction.response.send_message(error(tr("ワールドが見つかりませんでした"), tr("ワールドを作成してください。")), ephemeral=True)
+            await interaction.response.send_message(error(tr("💭ワールドが見つかりませんでした"), tr("🏞️ワールドを作成してください。")), ephemeral=True)
         else:
             worlds_list = "\n".join(sorted(world_names))
             embed = discord.Embed(
-                title=tr("サーバー内のワールド一覧"),
+                title=tr("🏞️サーバー内のワールド一覧"),
                 color=0x00ff00,
                 description=f"```\n{worlds_list}\n```"
             )
             await interaction.response.send_message(embed=embed, ephemeral=True)
     except Exception as e:
-        await interaction.response.send_message(error(tr("ワールド一覧の取得中にエラーが発生しました。"), tr("以下はエラーの内容です：") + "\n" + str(e)), ephemeral=True)
+        await interaction.response.send_message(error(tr("❌ワールド一覧の取得中にエラーが発生しました。"), tr("❌以下はエラーの内容です：") + "\n" + str(e)), ephemeral=True)
 
 
 # PaperMCを最新安定版に更新するコマンド
-@tree.command(name="updatepaper", description=tr("PaperMCの最新のビルドをサーバーにダウンロードする"))
+@tree.command(name="updatepaper", description=tr("📥PaperMCの最新のビルドをサーバーにダウンロードする"))
 @app_commands.default_permissions(administrator=True)
-@app_commands.describe(version=tr("バージョン（省略可）"))
+@app_commands.describe(version=tr("🪧バージョン（省略可）"))
 async def updatepaper(interaction: discord.Interaction, version: str = None):
     if is_server_running():
         await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
@@ -542,7 +542,7 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
         else:
             versions = versions_raw
         if not versions or not isinstance(versions, (list, tuple)):
-            raise Exception(tr("PaperMCのバージョンが取得できませんでした。"))
+            raise Exception(tr("❌PaperMCのバージョンが取得できませんでした。"))
 
         # versions 内には文字列だけでなく dict が混在することがある。
         # 各要素からバージョンIDを抽出してリスト化する。
@@ -564,7 +564,7 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
 
         print(f"updatepaper: extracted version_ids={version_ids}")
         if not version_ids:
-            raise Exception(tr("PaperMCのバージョンIDが抽出できませんでした。"))
+            raise Exception(tr("❌PaperMCのバージョンIDが抽出できませんでした。"))
 
         # ユーザーがバージョンを指定した場合はそれを使う
         if version:
@@ -577,7 +577,7 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
                         print("updatepaper: restored backup due to invalid requested version")
                     except Exception as e:
                         print("updatepaper: failed to restore backup after invalid version request:", e)
-                await safe_send(embed=error(tr("指定されたバージョンが見つかりませんでした。"), tr("バージョン番号を確認して、もう一度試して下さい。") + "\n" + tr("指定されたバージョン：") + f"{version}"), ephemeral=True)
+                await safe_send(embed=error(tr("❌指定されたバージョンが見つかりませんでした。"), tr("❌バージョン番号を確認して、もう一度試して下さい。") + "\n" + tr("🪧指定されたバージョン：") + f"{version}"), ephemeral=True)
                 return
             latest_version = version
             print(f"updatepaper: using requested version {latest_version}")
@@ -700,7 +700,7 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
                 elif isinstance(b, int):
                     ids.append(b)
             if not ids:
-                raise Exception(tr("ビルド番号が特定できませんでした。"))
+                raise Exception(tr("❌ビルド番号が特定できませんでした。"))
             build_num = max(ids)
             resp = requests.get(f"{base}/versions/{latest_version}/builds/{build_num}", headers=headers, timeout=30)
             resp.raise_for_status()
@@ -708,7 +708,7 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
 
         downloads = build_info.get('downloads', {})
         if not downloads:
-            raise Exception(tr("ダウンロード情報が見つかりませんでした。"))
+            raise Exception(tr("❌ダウンロード情報が見つかりませんでした。"))
 
         # server:default を優先
         download_obj = None
@@ -721,11 +721,11 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
                         break
 
         if not download_obj:
-            raise Exception(tr("ダウンロード対象のファイルが見つかりませんでした。"))
+            raise Exception(tr("❌ダウンロード対象のファイルが見つかりませんでした。"))
 
         download_url = download_obj.get('url')
         if not download_url:
-            raise Exception(tr("ダウンロードURLが取得できませんでした。"))
+            raise Exception(tr("❌ダウンロードURLが取得できませんでした。"))
         print(f"updatepaper: download_url={download_url}")
 
         # 確認フロー：ユーザーにダウンロード候補を表示し、承認があるまで待つ
@@ -734,7 +734,7 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
             build_id = None
             if isinstance(build_info, dict):
                 build_id = build_info.get('id') or build_info.get('build')
-            msg_text = tr("以下のバージョンをダウンロードします。よろしいですか？") + "\n"
+            msg_text = tr("ℹ️以下のバージョンをダウンロードします。よろしいですか？") + "\n"
             msg_text += f"Version: {latest_version}\n"
             if build_id is not None:
                 msg_text += f"Build: {build_id}\n"
@@ -751,7 +751,7 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
                 @discord.ui.button(label=tr("ダウンロード"), style=discord.ButtonStyle.green)
                 async def confirm(self, inter: discord.Interaction, button: discord.ui.Button):
                     if inter.user.id != self.author.id:
-                        await inter.response.send_message(tr("あなたはこの操作を行えません。"), ephemeral=True)
+                        await inter.response.send_message(tr("⛔️あなたはこの操作を行えません。"), ephemeral=True)
                         return
                     # defer the component interaction so the user sees a waiting state
                     await inter.response.defer()
@@ -764,7 +764,7 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
                             pass
                     # send a plain progress message (non-ephemeral so it can be deleted later)
                     try:
-                        self.progress_message = await inter.followup.send(tr("ダウンロードしています。おまちください..."), ephemeral=False)
+                        self.progress_message = await inter.followup.send(tr("📥ダウンロードしています。おまちください..."), ephemeral=False)
                     except Exception:
                         self.progress_message = None
                     self.value = True
@@ -773,7 +773,7 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
                 @discord.ui.button(label=tr("キャンセル"), style=discord.ButtonStyle.red)
                 async def cancel(self, inter: discord.Interaction, button: discord.ui.Button):
                     if inter.user.id != self.author.id:
-                        await inter.response.send_message(tr("あなたはこの操作を行えません。"), ephemeral=True)
+                        await inter.response.send_message(tr("⛔️あなたはこの操作を行えません。"), ephemeral=True)
                         return
                     await inter.response.defer()
                     self.interaction_ref = inter
@@ -813,7 +813,7 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
                         print("updatepaper: restored backup after timeout")
                     except Exception as e:
                         print("updatepaper: failed to restore backup after timeout:", e)
-                await safe_send(content=tr("時間切れ：承認が得られませんでした。更新を中止しました。"), ephemeral=True)
+                await safe_send(content=tr("⌛️時間切れ：承認が得られませんでした。更新を中止しました。"), ephemeral=True)
                 return
             if not view.value:
                 # user cancelled
@@ -827,12 +827,12 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
                 # notify the user who pressed the button (use the component interaction followup if available)
                 try:
                     if getattr(view, 'interaction_ref', None):
-                        await view.interaction_ref.followup.send(tr("更新がユーザーによってキャンセルされました。"), ephemeral=True)
+                        await view.interaction_ref.followup.send(tr("⏹️更新がユーザーによってキャンセルされました。"), ephemeral=True)
                     else:
-                        await safe_send(content=tr("更新がユーザーによってキャンセルされました。"), ephemeral=True)
+                        await safe_send(content=tr("⏹️更新がユーザーによってキャンセルされました。"), ephemeral=True)
                 except Exception:
                     try:
-                        await safe_send(content=tr("更新がユーザーによってキャンセルされました。"), ephemeral=True)
+                        await safe_send(content=tr("⏹️更新がユーザーによってキャンセルされました。"), ephemeral=True)
                     except Exception:
                         pass
                 return
@@ -846,7 +846,7 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
                     os.replace(backup_path, jar_path)
                 except Exception as e2:
                     print("updatepaper: failed to restore backup after confirmation error:", e2)
-            await safe_send(embed=error(tr("更新中止"), tr("承認フローでエラーが発生しました。")), ephemeral=True)
+            await safe_send(embed=error(tr("❌更新中止"), tr("❌承認フローでエラーが発生しました。")), ephemeral=True)
             return
 
         # 2) ダウンロード（まず一時ファイルへ）
@@ -896,12 +896,12 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
             sent = False
             try:
                 if getattr(view, 'interaction_ref', None):
-                    await safe_send(embed=success(tr("更新完了"), tr("最新ビルドの paper.jar をダウンロードしました：") + f"\nVersion: {latest_version}\nBuild: {build_id}"), ephemeral=False)
+                    await safe_send(embed=success(tr("📥更新完了"), tr("✅最新ビルドの paper.jar をダウンロードしました：") + f"\nVersion: {latest_version}\nBuild: {build_id}"), ephemeral=False)
                     sent = True
             except Exception:
                 sent = False
             if not sent:
-                await safe_send(embed=success(tr("更新完了"), tr("最新ビルドの paper.jar をダウンロードしました：") + f"\nVersion: {latest_version}\nBuild: {build_id}"), ephemeral=False)
+                await safe_send(embed=success(tr("📥更新完了"), tr("✅最新ビルドの paper.jar をダウンロードしました：") + f"\nVersion: {latest_version}\nBuild: {build_id}"), ephemeral=False)
         except Exception:
             # ダウンロード失敗時はバックアップを復元する
             print("updatepaper: download failed, attempting to restore backup")
@@ -922,7 +922,7 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
         print("updatepaper error:", str(e))
         print(tb)
         # まず短いメッセージを返信し、詳細はフォローアップで送る
-        await safe_send(embed=error(tr("更新失敗"), str(e)), ephemeral=True)
+        await safe_send(embed=error(tr("❌更新失敗"), str(e)), ephemeral=True)
         # フォローアップでトレースバックも送信（長い場合はカットされます）
         try:
             content = "```\n" + tb + "\n```"
@@ -932,7 +932,7 @@ async def updatepaper(interaction: discord.Interaction, version: str = None):
 
 
 # 新: ModrinthからDiscordSRVをpluginフォルダにダウンロードして更新するコマンド
-@tree.command(name="updatesrv", description=tr("DiscordSRVをModrinthからダウンロードしてpluginsフォルダに配置します"))
+@tree.command(name="updatesrv", description=tr("📥DiscordSRVをModrinthからダウンロードしてpluginsフォルダに配置します"))
 @app_commands.default_permissions(administrator=True)
 async def updatesrv(interaction: discord.Interaction):
     if is_server_running():
@@ -994,7 +994,7 @@ async def updatesrv(interaction: discord.Interaction):
                 versions = None
 
         if not versions:
-            await safe_send(embed=error(tr("取得失敗"), tr("ModrinthでDiscordSRVが見つかりませんでした。")), ephemeral=True)
+            await safe_send(embed=error(tr("❌取得失敗"), tr("❌ModrinthでDiscordSRVが見つかりませんでした。")), ephemeral=True)
             return
 
         # 日付で最新のバージョンを選択
@@ -1009,7 +1009,7 @@ async def updatesrv(interaction: discord.Interaction):
                 break
 
         if not file_obj:
-            await safe_send(embed=error(tr("取得失敗"), tr("ダウンロード可能なjarが見つかりませんでした。")), ephemeral=True)
+            await safe_send(embed=error(tr("❌取得失敗"), tr("❌ダウンロード可能なjarが見つかりませんでした。")), ephemeral=True)
             return
 
         download_url = file_obj.get("url")
@@ -1027,7 +1027,7 @@ async def updatesrv(interaction: discord.Interaction):
                 print("updatesrv: backup failed:", e)
 
         # 確認フロー
-        msg_text = tr("以下のファイルをダウンロードしてpluginsに配置します。よろしいですか？") + "\n"
+        msg_text = tr("ℹ️以下のファイルをダウンロードしてpluginsに配置します。よろしいですか？") + "\n"
         msg_text += f"Version: {chosen.get('id')}\nFilename: {filename}\n"
 
         class ConfirmView(discord.ui.View):
@@ -1042,7 +1042,7 @@ async def updatesrv(interaction: discord.Interaction):
             @discord.ui.button(label=tr("ダウンロード"), style=discord.ButtonStyle.green)
             async def confirm(self, inter: discord.Interaction, button: discord.ui.Button):
                 if inter.user.id != self.author.id:
-                    await inter.response.send_message(tr("あなたはこの操作を行えません。"), ephemeral=True)
+                    await inter.response.send_message(tr("⛔️あなたはこの操作を行えません。"), ephemeral=True)
                     return
                 await inter.response.defer()
                 self.interaction_ref = inter
@@ -1052,7 +1052,7 @@ async def updatesrv(interaction: discord.Interaction):
                     except Exception:
                         pass
                 try:
-                    self.progress_message = await inter.followup.send(tr("ダウンロードしています。おまちください..."), ephemeral=False)
+                    self.progress_message = await inter.followup.send(tr("📥ダウンロードしています。おまちください..."), ephemeral=False)
                 except Exception:
                     self.progress_message = None
                 self.value = True
@@ -1061,7 +1061,7 @@ async def updatesrv(interaction: discord.Interaction):
             @discord.ui.button(label=tr("キャンセル"), style=discord.ButtonStyle.red)
             async def cancel(self, inter: discord.Interaction, button: discord.ui.Button):
                 if inter.user.id != self.author.id:
-                    await inter.response.send_message(tr("あなたはこの操作を行えません。"), ephemeral=True)
+                    await inter.response.send_message(tr("⛔️あなたはこの操作を行えません。"), ephemeral=True)
                     return
                 await inter.response.defer()
                 self.interaction_ref = inter
@@ -1093,7 +1093,7 @@ async def updatesrv(interaction: discord.Interaction):
                     os.replace(backup_path, dest_path)
                 except Exception as e:
                     print("updatesrv: restore after timeout failed:", e)
-            await safe_send(content=tr("時間切れ：承認が得られませんでした。更新を中止しました。"), ephemeral=True)
+            await safe_send(content=tr("⌛️時間切れ：承認が得られませんでした。更新を中止しました。"), ephemeral=True)
             return
         if not view.value:
             if os.path.exists(backup_path) and not os.path.exists(dest_path):
@@ -1103,9 +1103,9 @@ async def updatesrv(interaction: discord.Interaction):
                     print("updatesrv: restore after cancel failed:", e)
             try:
                 if getattr(view, "interaction_ref", None):
-                    await view.interaction_ref.followup.send(tr("更新がユーザーによってキャンセルされました。"), ephemeral=True)
+                    await view.interaction_ref.followup.send(tr("⏹️更新がユーザーによってキャンセルされました。"), ephemeral=True)
                 else:
-                    await safe_send(content=tr("更新がユーザーによってキャンセルされました。"), ephemeral=True)
+                    await safe_send(content=tr("⏹️更新がユーザーによってキャンセルされました。"), ephemeral=True)
             except Exception:
                 pass
             return
@@ -1135,9 +1135,9 @@ async def updatesrv(interaction: discord.Interaction):
                 pass
             try:
                 if getattr(view, "interaction_ref", None):
-                    await safe_send(embed=success(tr("更新完了"), tr("DiscordSRVをpluginsにダウンロードしました。") + f"\nVersion: {chosen.get('id')}\nFilename: {filename}"), ephemeral=False)
+                    await safe_send(embed=success(tr("📥更新完了"), tr("✅DiscordSRVをpluginsにダウンロードしました。") + f"\nVersion: {chosen.get('id')}\nFilename: {filename}"), ephemeral=False)
                 else:
-                    await safe_send(embed=success(tr("更新完了"), tr("DiscordSRVをpluginsにダウンロードしました。") + f"\nVersion: {chosen.get('id')}\nFilename: {filename}"), ephemeral=False)
+                    await safe_send(embed=success(tr("📥更新完了"), tr("✅DiscordSRVをpluginsにダウンロードしました。") + f"\nVersion: {chosen.get('id')}\nFilename: {filename}"), ephemeral=False)
             except Exception:
                 pass
         except Exception as e:
@@ -1153,7 +1153,7 @@ async def updatesrv(interaction: discord.Interaction):
                 except Exception as e2:
                     print("updatesrv: restore failed after download error:", e2)
             tb = traceback.format_exc()
-            await safe_send(embed=error(tr("更新失敗"), str(e)), ephemeral=True)
+            await safe_send(embed=error(tr("❌更新失敗"), str(e)), ephemeral=True)
             try:
                 await safe_send(content="```\n" + tb + "\n```", ephemeral=True)
             except Exception:
@@ -1163,7 +1163,7 @@ async def updatesrv(interaction: discord.Interaction):
         tb = traceback.format_exc()
         print("updatesrv error:", e)
         print(tb)
-        await safe_send(embed=error(tr("更新失敗"), str(e)), ephemeral=True)
+        await safe_send(embed=error(tr("❌更新失敗"), str(e)), ephemeral=True)
         try:
             await safe_send(content="```\n" + tb + "\n```", ephemeral=True)
         except Exception:
@@ -1171,7 +1171,7 @@ async def updatesrv(interaction: discord.Interaction):
 
 
 # GeyserMCとFloodgateの更新コマンド
-@tree.command(name="updategeyser", description=tr("GeyserMCとFloodgateの最新ビルドをダウンロードして更新する"))
+@tree.command(name="updategeyser", description=tr("📥GeyserMCとFloodgateの最新ビルドをダウンロードして更新する"))
 @app_commands.default_permissions(administrator=True)
 async def updategeyser(interaction: discord.Interaction):
     if is_server_running():
@@ -1223,7 +1223,7 @@ async def updategeyser(interaction: discord.Interaction):
             print("updategeyser: floodgate fetch error:", e)
 
         if not geyser_info and not floodgate_info:
-            await safe_send(embed=error(tr("取得失敗"), tr("GeyserMCもFloodgateも情報を取得できませんでした。")), ephemeral=True)
+            await safe_send(embed=error(tr("❌取得失敗"), tr("❌GeyserMCもFloodgateも情報を取得できませんでした。")), ephemeral=True)
             return
 
         # ダウンロード対象の整理
@@ -1246,7 +1246,7 @@ async def updategeyser(interaction: discord.Interaction):
             targets.append({"name": "Floodgate", "file": target_name, "url": url, "path": os.path.join(plugin_dir, target_name), "ver_info": f"{ver} (Build {build})"})
             msg_lines.append(f"Floodgate: {ver} (Build {build})")
 
-        msg_text = tr("以下のファイルを更新します。よろしいですか？") + "\n" + "\n".join(msg_lines)
+        msg_text = tr("ℹ️以下のファイルを更新します。よろしいですか？") + "\n" + "\n".join(msg_lines)
 
         class ConfirmView(discord.ui.View):
             def __init__(self, author):
@@ -1260,7 +1260,7 @@ async def updategeyser(interaction: discord.Interaction):
             @discord.ui.button(label=tr("ダウンロード"), style=discord.ButtonStyle.green)
             async def confirm(self, inter: discord.Interaction, button: discord.ui.Button):
                 if inter.user.id != self.author.id:
-                    await inter.response.send_message(tr("あなたはこの操作を行えません。"), ephemeral=True)
+                    await inter.response.send_message(tr("⛔️あなたはこの操作を行えません。"), ephemeral=True)
                     return
                 await inter.response.defer()
                 self.interaction_ref = inter
@@ -1268,7 +1268,7 @@ async def updategeyser(interaction: discord.Interaction):
                     try: await self.message.delete()
                     except: pass
                 try:
-                    self.progress_message = await inter.followup.send(tr("ダウンロードしています。おまちください..."), ephemeral=False)
+                    self.progress_message = await inter.followup.send(tr("📥ダウンロードしています。おまちください..."), ephemeral=False)
                 except:
                     self.progress_message = None
                 self.value = True
@@ -1277,7 +1277,7 @@ async def updategeyser(interaction: discord.Interaction):
             @discord.ui.button(label=tr("キャンセル"), style=discord.ButtonStyle.red)
             async def cancel(self, inter: discord.Interaction, button: discord.ui.Button):
                 if inter.user.id != self.author.id:
-                    await inter.response.send_message(tr("あなたはこの操作を行えません。"), ephemeral=True)
+                    await inter.response.send_message(tr("⛔️あなたはこの操作を行えません。"), ephemeral=True)
                     return
                 await inter.response.defer()
                 self.interaction_ref = inter
@@ -1297,7 +1297,7 @@ async def updategeyser(interaction: discord.Interaction):
         await view.wait()
         
         if view.value is None:
-            await safe_send(content=tr("時間切れ：承認が得られませんでした。更新を中止しました。"), ephemeral=True)
+            await safe_send(content=tr("⌛️時間切れ：承認が得られませんでした。更新を中止しました。"), ephemeral=True)
             try:
                 if view.message: await view.message.delete()
             except: pass
@@ -1306,9 +1306,9 @@ async def updategeyser(interaction: discord.Interaction):
         if not view.value:
             try:
                 if view.interaction_ref:
-                    await view.interaction_ref.followup.send(tr("更新がユーザーによってキャンセルされました。"), ephemeral=True)
+                    await view.interaction_ref.followup.send(tr("⏹️更新がユーザーによってキャンセルされました。"), ephemeral=True)
                 else:
-                    await safe_send(content=tr("更新がユーザーによってキャンセルされました。"), ephemeral=True)
+                    await safe_send(content=tr("⏹️更新がユーザーによってキャンセルされました。"), ephemeral=True)
             except: pass
             return
 
@@ -1369,13 +1369,13 @@ async def updategeyser(interaction: discord.Interaction):
                 await view.progress_message.delete()
         except: pass
 
-        await safe_send(embed=success(tr("更新完了"), "\n".join(results_msg)), ephemeral=False)
+        await safe_send(embed=success(tr("📥更新完了"), "\n".join(results_msg)), ephemeral=False)
 
     except Exception as e:
         tb = traceback.format_exc()
         print("updategeyser error:", e)
         print(tb)
-        await safe_send(embed=error(tr("エラー"), str(e)), ephemeral=True)
+        await safe_send(embed=error(tr("❌エラー"), str(e)), ephemeral=True)
 
 
 #コマンド群ここまで ------------------------------------------------------
@@ -1404,9 +1404,9 @@ def is_server_running():
 
 def server_is_running():
     embed = discord.Embed(
-        title=tr("エラー：サーバーが起動中です"),
+        title=tr("❌エラー：サーバーが起動中です"),
         color=0xff0000,
-        description=tr("そのコマンドを実行するには、サーバーを終了してください。")
+        description=tr("🏞️そのコマンドを実行するには、サーバーを終了してください。")
         )
     return embed
 

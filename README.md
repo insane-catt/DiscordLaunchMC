@@ -128,6 +128,7 @@ DMまでどうぞ
 このライセンスは、戦争、差別、抑圧に反対する私自身の立場を反映したものです。
 
 ## バージョン履歴
+- v1.3.1：コマンドに絵文字を追加
 - v1.3：各種アップデートコマンドを追加
 - v1.2.3：翻訳の挙動の改善
 - v1.2.2：翻訳バグ修正
@@ -263,6 +264,7 @@ I believe software should not be used to harm others or support injustice.
 This license reflects my personal stance against war, discrimination, and oppression.
 
 ## Version history
+- v1.3.1: Added emojis to the command
 - v1.3: Added various update commands
 - v1.2.3: Improved translation behavior
 - v1.2.2: Fixed translation bugs
