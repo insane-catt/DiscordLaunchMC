@@ -1,4 +1,4 @@
-# v1.3.1
+# v1.4
 dictionary = {
     "en": {
         "こんにちは、": "Hello, ",
@@ -107,6 +107,15 @@ dictionary = {
         "❌GeyserMCもFloodgateも情報を取得できませんでした。": "❌Could not retrieve information for GeyserMC and Floodgate.",
         "ℹ️以下のファイルを更新します。よろしいですか？": "ℹ️The following file will be updated. Is that okay?",
         "ダウンロード失敗": "Download failed",
-        "❌エラー": "❌Error"
+        "❌エラー": "❌Error",
+        "🪨統合版ユーザーをホワイトリストに追加する（XUIDがわからなければそのままコマンドを実行してヘルプ）": "🪨Add Bedrock users to the whitelist (If you don't know the XUID, run the command without arguments to get help)",
+        "❎Xboxゲーマータグ": "❎Xbox Gamertag",
+        "🔠XUID (HEX)": "🔠XUID (HEX)",
+        "このコマンドを実行するには、gamertag引数とxuid引数の両方が入力される必要があります。\nhttps://cxkes.me/xbox/xuid\n↑このサイトにアクセスし、Xboxゲーマータグを入力して送信すると、XUID (HEX)が分かります。": "To execute this command, both gamertag and xuid arguments must be provided.\nhttps://cxkes.me/xbox/xuid\n↑Enter your Xbox Gamertag on this site and submit to get the XUID (HEX).",
+        "✅統合版ユーザーをホワイトリストに追加しました": "✅Added Bedrock user to whitelist",
+        "👤追加されたユーザー: ": "👤Added user: ",
+        "ℹ️ヘルプ": "ℹ️Help",
+        "❌無効なXUIDです。": "❌Invalid XUID.",
+        "XUIDは16桁のHEX値である必要があります。": "XUID must be a 16-digit HEX value."
     }
 }

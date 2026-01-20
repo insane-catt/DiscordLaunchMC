@@ -1,4 +1,4 @@
-# v1.3.2
+# v1.4
 # 重要：ライセンスを変更しました。詳しくはREADMEとLICENSEを参照してください。
 # Important note: The license has been changed. Please refer to README and LICENSE for details.
 
@@ -442,6 +442,55 @@ async def allowlist(interaction: discord.Interaction, add_or_delete: str, user: 
             await interaction.response.send_message(embed=success(tr("🚷許可リストから削除しました"), tr("🚷許可リストから削除されたユーザー：") + user))
         else:
             await interaction.response.send_message(embed=error(tr("❌無効なオプションです。"), ephemeral=True))
+
+
+@tree.command(name="allowbedrock", description=tr("🪨統合版ユーザーをホワイトリストに追加する（XUIDがわからなければそのままコマンドを実行してヘルプ）"))
+@app_commands.default_permissions(administrator=True)
+@app_commands.describe(gamertag=tr("❎Xboxゲーマータグ"), xuid=tr("🔠XUID (HEX)"))
+async def allowbedrock(interaction: discord.Interaction, gamertag: str = None, xuid: str = None):
+    if gamertag is None or xuid is None:
+        help_message = tr("このコマンドを実行するには、gamertag引数とxuid引数の両方が入力される必要があります。\nhttps://cxkes.me/xbox/xuid\n↑このサイトにアクセスし、Xboxゲーマータグを入力して送信すると、XUID (HEX)が分かります。")
+        await interaction.response.send_message(embed=discord.Embed(title=tr("ℹ️ヘルプ"), description=help_message, color=0x00ff00))
+        return
+
+    # XUIDをUUIDに変換
+    def xuid_to_uuid(xuid_hex):
+        if len(xuid_hex) != 16 or not all(c in '0123456789abcdefABCDEF' for c in xuid_hex):
+            return None
+        xuid_hex = xuid_hex.lower()
+        part1 = xuid_hex[0:4]
+        part2 = xuid_hex[4:16]
+        uuid = f"00000000-0000-0000-{part1}-{part2}"
+        return uuid
+
+    uuid = xuid_to_uuid(xuid)
+    if uuid is None:
+        await interaction.response.send_message(embed=error(tr("❌無効なXUIDです。"), tr("XUIDは16桁のHEX値である必要があります。")), ephemeral=True)
+        return
+    name = f".{gamertag}"
+
+    whitelist_file = f"{SERVER_PATH}/whitelist.json"
+    if os.path.exists(whitelist_file):
+        with open(whitelist_file, 'r') as f:
+            try:
+                whitelist = json.load(f)
+            except Exception:
+                whitelist = []
+    else:
+        whitelist = []
+
+    if is_server_running():
+        await interaction.response.send_message(embed=server_is_running(), ephemeral=True)
+    else:
+        # 重複チェック
+        if any(entry['uuid'] == uuid for entry in whitelist):
+            await interaction.response.send_message(embed=error(tr("✅このユーザーは既に許可リストに存在します"), tr("👤ユーザー名：") + name), ephemeral=True)
+            return
+
+        whitelist.append({"uuid": uuid, "name": name})
+        with open(whitelist_file, 'w') as f:
+            json.dump(whitelist, f, indent=2)
+        await interaction.response.send_message(embed=success(tr("✅統合版ユーザーをホワイトリストに追加しました"), tr("👤追加されたユーザー: ") + name))
 
 
 # ワールド一覧を表示する

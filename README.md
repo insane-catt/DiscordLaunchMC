@@ -97,6 +97,7 @@ python3 DiscordLaunchMC.py
 - `/setdirectly`：server.propertiesのプロパティ名を入れ、コマンドを送信後、`=`に続く設定したい値を送信すると、server.propertiesのプロパティを直接編集できる。このコマンドは慎重に使わないとサーバーが意図しない動作をする可能性があるので、気を付けて。
 - `/searchproperty`：`/setdirectly`コマンドを使う際などにプロパティ名の一部しか覚えていない場合、このコマンドでプロパティ名の一部を送信するとプロパティを検索することができる。プロパティの現在の設定もここで確認できる。
 - `/allowlist`：サーバーに参加できるユーザーを、`user`引数にいれて追加できる。許可リスト（whitelist.json）を編集する。
+- `/allowbedrock`：統合版ユーザーを許可リスト（whitelist.json）に追加する。XboxゲーマータグとXUID (HEX)の2つの引数が必要だが、どちらかの引数が満たされなければヘルプが表示される。
 - `/listworlds`：サーバーディレクトリ内に存在するワールド一覧を表示する。
 <hr>
 
@@ -128,7 +129,8 @@ DMまでどうぞ
 このライセンスは、戦争、差別、抑圧に反対する私自身の立場を反映したものです。
 
 ## バージョン履歴
-- v1.3.2：`updatesrv`コマンドの重要な修正
+- v1.4：`/allowbedrock`コマンドの追加
+- v1.3.2：`/updatesrv`コマンドの重要な修正
 - v1.3.1：コマンドに絵文字を追加
 - v1.3：各種アップデートコマンドを追加
 - v1.2.3：翻訳の挙動の改善
@@ -234,6 +236,7 @@ python3 DiscordLaunchMC.py
 - `/setdirectly`: Directly edit a property in server.properties by specifying the property name and value. Use with caution.
 - `/searchproperty`: Search for a property in server.properties by part of its name. Also shows the current value.
 - `/allowlist`: Add users to the allowlist (`whitelist.json`) by specifying the `user` argument.
+- `/allowbedrock`: Adds Bedrock Edition users to the whitelist (whitelist.json). Requires two arguments: Xbox Gamertag and XUID (HEX). If either argument is not provided, help will be displayed.
 - `/listworlds`: Display a list of worlds in the server directory.
 <hr>
 
@@ -265,6 +268,7 @@ I believe software should not be used to harm others or support injustice.
 This license reflects my personal stance against war, discrimination, and oppression.
 
 ## Version history
+- v1.4: Added the `/allowbedrock` command
 - v1.3.2: Critical fix for the `updatesrv` command
 - v1.3.1: Added emojis to the command
 - v1.3: Added various update commands
