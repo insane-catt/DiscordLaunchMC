@@ -1,4 +1,4 @@
-# v1.3.1
+# v1.3.2
 # 重要：ライセンスを変更しました。詳しくはREADMEとLICENSEを参照してください。
 # Important note: The license has been changed. Please refer to README and LICENSE for details.
 
@@ -1125,6 +1125,13 @@ async def updatesrv(interaction: discord.Interaction):
                     os.remove(backup_path)
                 except Exception:
                     pass
+            # ダウンロード成功後、古いバージョンのDiscordSRVファイルを削除
+            for f in os.listdir(plugin_dir):
+                if f.endswith('.jar') and 'DiscordSRV' in f and f != filename:
+                    try:
+                        os.remove(os.path.join(plugin_dir, f))
+                    except Exception:
+                        pass
             try:
                 if getattr(view, "progress_message", None):
                     try:
